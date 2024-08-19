@@ -25,7 +25,7 @@ export async function getShowtimeById(req, res) {
 export async function updateShowtime(req, res) {
     const { id } = req.params;
     const newData = req.body;
-    const showtime = await ShowtimeModel.findOneAndUpdate(id, newData);
+    const showtime = await ShowtimeModel.findOneAndUpdate({ _id: id }, newData);
     if (!showtime) {
         return res.status(404).json({ message: "Showtime not found" });
     }

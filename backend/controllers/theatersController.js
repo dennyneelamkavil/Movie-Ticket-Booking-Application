@@ -25,7 +25,7 @@ export async function getTheaterById(req, res) {
 export async function updateTheater(req, res) {
     const { id } = req.params;
     const newData = req.body;
-    const theater = await TheaterModel.findOneAndUpdate(id, newData);
+    const theater = await TheaterModel.findOneAndUpdate({ _id: id }, newData);
     if (!theater) {
         return res.status(404).json({ message: "Theater not found" });
     }

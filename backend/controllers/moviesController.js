@@ -33,7 +33,7 @@ export async function updateMovie(req, res) {
         newData.image = req.file.path;
         newData.imagePublicId = req.file.filename;
     }
-    const movie = await MovieModel.findOneAndUpdate(id, newData);
+    const movie = await MovieModel.findOneAndUpdate({ _id: id }, newData);
     if (!movie) {
         return res.status(404).json({ message: "Movie not found" });
     }

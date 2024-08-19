@@ -25,7 +25,7 @@ export async function getBookingById(req, res) {
 export async function updateBooking(req, res) {
     const { id } = req.params;
     const newData = req.body;
-    const booking = await BookingModel.findOneAndUpdate(id, newData);
+    const booking = await BookingModel.findOneAndUpdate({ _id: id }, newData);
     if (!booking) {
         return res.status(404).json({ message: "Booking not found" });
     }
