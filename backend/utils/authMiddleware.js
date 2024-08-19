@@ -1,25 +1,19 @@
-import UserModel from "../models/userModel.js";
-
-export const isAdmin = async (req, res, next) => {
-  const userDetails = req.body;
-  const user = await UserModel.findOne({ email: userDetails.email });
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
-  }
-  if (user.role !== "admin") {
-    return res.status(403).json({ message: "Access denied" });
-  }
-  next();
-};
-
-export const isOwner = async (req, res, next) => {
-  const userDetails = req.body;
-  const user = await UserModel.findOne({ email: userDetails.email });
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
-  }
-  if (user.role !== "theaterOwner") {
-    return res.status(403).json({ message: "Access denied" });
-  }
-  next();
+export const checkAuth = (authorisedRole) => {
+  return async (req, res, next) => {
+    try {
+      const { role } = req.user;
+      if (!role) {
+        return res.status(401).json({ message: "Unauthorized: Role not found" });
+      }
+      if (role === "admin") {
+        next();
+      } else if (role === authorisedRole) {
+        next();
+      } else {
+        return res.status(401).json({ message: "Unauthorized: You are not authorized" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error: error.message });
+    }
+  };
 };

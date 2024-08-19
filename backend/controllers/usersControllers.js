@@ -38,15 +38,6 @@ export async function getUserById(req, res) {
   res.status(200).json({ user: user });
 }
 
-export async function deleteUser(req, res) {
-  const { id } = req.params;
-  const user = await UserModel.findByIdAndDelete(id);
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
-  }
-  res.status(200).json({ message: "User deleted successfully" });
-}
-
 export async function updateUser(req, res) {
   const { id } = req.params;
   const newData = req.body;
@@ -55,4 +46,13 @@ export async function updateUser(req, res) {
     return res.status(404).json({ message: "User not found" });
   }
   res.status(200).json({ message: "User updated successfully" });
+}
+
+export async function deleteUser(req, res) {
+  const { id } = req.params;
+  const user = await UserModel.findByIdAndDelete(id);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  res.status(200).json({ message: "User deleted successfully" });
 }

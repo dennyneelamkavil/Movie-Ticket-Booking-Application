@@ -7,7 +7,7 @@ if (!secretKey) {
 
 export function generateToken(name, email, role) {
   const userData = { name, email, role };
-  const options = { expiresIn: "1h", issuer: "backend server", audience: "frontend server" };
+  const options = { expiresIn: "1d", issuer: "backend server", audience: "frontend server" };
   const token = jwt.sign(userData, secretKey, options);
   return token;
 }
@@ -24,7 +24,7 @@ export function verifyToken(req, res, next) {
   try {
     const decoded = jwt.verify(token, secretKey);
     req.user = decoded;
-    return next();
+    next();
   } catch (err) {
     console.error("Token verification error:", err);
     return res.status(401).send("Invalid Token");
