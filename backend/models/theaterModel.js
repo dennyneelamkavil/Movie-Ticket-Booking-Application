@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 
 const TheaterSchema = new mongoose.Schema(
   {
-    theaterID: {
-      type: mongoose.Schema.Types.ObjectId,
-      default: new mongoose.Types.ObjectId(),
-    },
     name: {
       type: String,
       required: true,

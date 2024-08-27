@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 
 const SeatSchema = new mongoose.Schema(
   {
-    seatID: {
-      type: mongoose.Schema.Types.ObjectId,
-      default: new mongoose.Types.ObjectId(),
-    },
     theaterID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "TheaterModel",

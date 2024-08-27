@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 
 const ShowtimeSchema = new mongoose.Schema(
   {
-    showtimeID: {
-      type: mongoose.Schema.Types.ObjectId,
-      default: new mongoose.Types.ObjectId(),
-    },
     movieID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "MovieModel",
