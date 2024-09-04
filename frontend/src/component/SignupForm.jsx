@@ -1,54 +1,84 @@
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-// import useLoginStore from "../store/loginStore";
-// import { signup } from "../apis";
+import { toggleShowLogin } from "../auth/authSlice";
+import { useSignupMutation } from "../api/userApiSlice";
 
 export default function SignupForm() {
-//   const { setIsLogin } = useLoginStore();
-  const { handleSubmit, register, reset } = useForm();
+  const dispatch = useDispatch();
+  const {
+    handleSubmit,
+    register,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const [signup] = useSignupMutation();
 
   const toSignup = async (data) => {
     try {
-    //   const res = await signup(data);
-    //   toast.success(res.data.message);
-    //   setIsLogin();
+      const res = await signup(data).unwrap();
+      toast.success(res.message);
+      reset();
     } catch (error) {
-      toast.error(error.response.data.message);
+      const errorMessage = error?.data?.message || "An error occurred";
+      toast.error(errorMessage);
       reset();
     }
   };
 
+  const newPassword = watch("newPassword");
+
   return (
     <div className="max-w-sm mx-auto p-6 border border-gray-300 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold text-center mb-4">Sign Up</h2>
-      <form
-        onSubmit={handleSubmit(toSignup)}
-        className="space-y-4"
-      >
+      <form onSubmit={handleSubmit(toSignup)} className="space-y-4">
         <input
           type="email"
           placeholder="Email"
           className="input input-bordered w-full"
-          {...register("email")}
+          {...register("email", { required: "Email is required" })}
         />
+        {errors.email && (
+          <p className="text-red-500 text-sm">{errors.email.message}</p>
+        )}
+
         <input
           type="password"
           placeholder="New Password"
           className="input input-bordered w-full"
-          {...register("newPassword")}
+          {...register("newPassword", {
+            required: "Password is required",
+            minLength: {
+              value: 6,
+              message: "Password must be at least 6 characters",
+            },
+          })}
         />
+        {errors.newPassword && (
+          <p className="text-red-500 text-sm">{errors.newPassword.message}</p>
+        )}
+
         <input
           type="password"
           placeholder="Confirm Password"
           className="input input-bordered w-full"
-          {...register("password")}
+          {...register("password", {
+            required: "Please confirm your password",
+            validate: (value) =>
+              value === newPassword || "Passwords do not match",
+          })}
         />
+        {errors.password && (
+          <p className="text-red-500 text-sm">{errors.password.message}</p>
+        )}
+
         <button className="btn btn-primary w-full">Sign Up</button>
       </form>
       <p className="text-center text-sm mt-4">
         Already have an account?{" "}
         <span
-        //   onClick={setIsLogin}
+          onClick={() => dispatch(toggleShowLogin())}
           className="text-blue-500 cursor-pointer"
         >
           Login here

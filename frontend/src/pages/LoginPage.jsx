@@ -1,12 +1,12 @@
+import { useSelector } from "react-redux";
 import LoginForm from "../component/LoginForm";
 import SignupForm from "../component/SignupForm";
-// import useLoginStore from "../store/loginStore";
 
 export default function LoginPage() {
-  const { isLogin } = useLoginStore();
+  const {showLogin} = useSelector((state) => state.auth);
   return (
     <div className="flex justify-center items-center h-screen w-full">
-      {/* {isLogin ? <LoginForm /> : <SignupForm />} */}
+      {showLogin ? <LoginForm /> : <SignupForm />}
     </div>
   );
 }
