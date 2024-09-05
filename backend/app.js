@@ -5,6 +5,7 @@ import "dotenv/config";
 import { connectDB } from "./db/index.js";
 import router from "./routes/index.js";
 const PORT = process.env.PORT;
+const clientURL = process.env.FRONTEND_URL;
 
 const app = express();
 
@@ -12,7 +13,7 @@ connectDB();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: clientURL,
   })
 );
 app.use(logger("dev"));

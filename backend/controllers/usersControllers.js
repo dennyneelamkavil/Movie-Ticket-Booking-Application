@@ -6,7 +6,6 @@ export async function signUp(req, res) {
   const userDetails = req.body;
   userDetails.password = await bcrypt.hash(userDetails.password, 10);
   const user = new UserModel(userDetails);
-  console.log(user);
   await user.save();
   res.status(201).json({ message: "User created successfully" });
 }
@@ -21,7 +20,9 @@ export async function logIn(req, res) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
   const token = generateToken(user.name, user.email, user.role);
-  res.status(200).json({ token: token, message: "Login successful" });
+  res
+    .status(200)
+    .json({ user: user, token: token, message: "Login successful" });
 }
 
 export async function getAllUsers(req, res) {
@@ -41,7 +42,7 @@ export async function getUserById(req, res) {
 export async function updateUser(req, res) {
   const { id } = req.params;
   const newData = req.body;
-  const user = await UserModel.findOneAndUpdate({ _id: id}, newData);
+  const user = await UserModel.findOneAndUpdate({ _id: id }, newData);
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }

@@ -20,6 +20,7 @@ export default function SignupForm() {
       const res = await signup(data).unwrap();
       toast.success(res.message);
       reset();
+      dispatch(toggleShowLogin());
     } catch (error) {
       const errorMessage = error?.data?.message || "An error occurred";
       toast.error(errorMessage);
@@ -33,6 +34,15 @@ export default function SignupForm() {
     <div className="max-w-sm mx-auto p-6 border border-gray-300 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold text-center mb-4">Sign Up</h2>
       <form onSubmit={handleSubmit(toSignup)} className="space-y-4">
+        <input
+          type="text"
+          placeholder="Name"
+          className="input input-bordered w-full"
+          {...register("name", { required: "Name is required" })}
+        />
+        {errors.name && (
+          <p className="text-red-500 text-sm">{errors.name.message}</p>
+        )}
         <input
           type="email"
           placeholder="Email"
