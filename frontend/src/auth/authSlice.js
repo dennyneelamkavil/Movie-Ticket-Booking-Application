@@ -16,12 +16,12 @@ const authSlice = createSlice({
     setCredentials: (state, action) => {
       const { user, token, lastLoggedIn } = action.payload;
       state.user = user;
-      state.token = token;
       state.userID = user._id;
       state.userName = user.name;
-      state.lastLoggedIn = lastLoggedIn;
       state.userRole = user.role;
       state.permissions = user.permissions;
+      if (token) state.token = token;
+      if (lastLoggedIn) state.lastLoggedIn = lastLoggedIn;
     },
     setLogout: (state) => {
       state.user = null;

@@ -42,11 +42,13 @@ export async function getUserById(req, res) {
 export async function updateUser(req, res) {
   const { id } = req.params;
   const newData = req.body;
-  const user = await UserModel.findOneAndUpdate({ _id: id }, newData);
+  const user = await UserModel.findOneAndUpdate({ _id: id }, newData, {
+    new: true,
+  });
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
-  res.status(200).json({ message: "User updated successfully" });
+  res.status(200).json({ user: user, message: "User updated successfully" });
 }
 
 export async function deleteUser(req, res) {

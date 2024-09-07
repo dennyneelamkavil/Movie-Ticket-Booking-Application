@@ -20,6 +20,8 @@ export default function LoginForm() {
     try {
       const res = await login(data).unwrap();
       toast.success(res.message);
+      console.log(res);
+
       navigate("/");
       dispatch(
         setCredentials({

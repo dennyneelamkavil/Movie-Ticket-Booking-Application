@@ -1,18 +1,64 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setLogout } from "../auth/authSlice";
-import { useState } from "react";
+import { setCredentials, setLogout } from "../auth/authSlice";
+import { useState, useEffect, useRef } from "react";
+import cities from "../assets/cities.json";
+import { useUpdateUserMutation } from "../api/userApiSlice";
 
 export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [updateUser] = useUpdateUserMutation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredCities, setFilteredCities] = useState(cities);
+  const [modalOpen, setModalOpen] = useState(false);
+  const modalRef = useRef(null);
+
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    if (query) {
+      const results = cities.filter((city) =>
+        city.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredCities(results);
+    } else {
+      setFilteredCities(cities);
+    }
+  };
 
   const handleLogout = () => {
     navigate("/login");
     dispatch(setLogout());
   };
+
+  const handleCitySelect = async (city) => {
+    const res = await updateUser({
+      id: user._id,
+      updatedUser: { city },
+    }).unwrap();
+    dispatch(setCredentials({ user: res.user }));
+    setModalOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        modalOpen &&
+        modalRef.current &&
+        !modalRef.current.contains(event.target)
+      ) {
+        setModalOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [modalOpen]);
 
   return (
     <div className="navbar bg-base-100">
@@ -20,13 +66,40 @@ export default function Navbar() {
         <a className="btn btn-ghost text-xl">MoviePass</a>
       </div>
       <div className="flex-none gap-2">
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered w-24 md:w-auto"
-          />
-        </div>
+        <button className="btn" onClick={() => setModalOpen(true)}>
+          {user.city || "Select City"}
+        </button>
+
+        {modalOpen && (
+          <dialog className="modal" open>
+            <div
+              className="modal-box w-11/12 max-w-4xl"
+              ref={modalRef}
+              style={{ scrollbarWidth: "none" }}
+            >
+              <div className="form-control">
+                <input
+                  type="text"
+                  placeholder="Search cities"
+                  className="input input-bordered w-full"
+                  value={searchQuery}
+                  onChange={handleSearch}
+                />
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                {filteredCities.map((city, index) => (
+                  <div
+                    key={index}
+                    className="bg-base-200 rounded-md p-4 cursor-pointer hover:bg-base-300"
+                    onClick={() => handleCitySelect(city)}
+                  >
+                    {city}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </dialog>
+        )}
         <label className="swap swap-rotate">
           <input type="checkbox" className="theme-controller" value="dark" />
           <svg

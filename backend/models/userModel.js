@@ -20,6 +20,7 @@ const UserSchema = new mongoose.Schema(
       enum: ["user", "admin", "theaterOwner"],
       default: "user",
     },
+    city: String,
     bookingHistory: [
       {
         type: mongoose.Schema.Types.ObjectId,
