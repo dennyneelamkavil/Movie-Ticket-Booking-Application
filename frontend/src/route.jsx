@@ -14,11 +14,17 @@ import MovieForm from "./pages/MovieForm";
 import ProtectedRoute from "./component/ProtectedRoute";
 import Unauthorized from "./pages/Unauthorized";
 import RouteNotFound from "./pages/RouteNotFound";
+import PublicRoute from "./component/PublicRoute";
 
 export const router = createBrowserRouter([
   {
-    path: "/login",
-    element: <LoginPage />,
+    element: <PublicRoute />,
+    children: [
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+    ],
   },
   {
     element: <Layout />,
