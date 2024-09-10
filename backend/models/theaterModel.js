@@ -13,15 +13,19 @@ const TheaterSchema = new mongoose.Schema(
     seatingLayout: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "SeatModel",
+        ref: "Seats",
       },
     ],
     showtimes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "ShowtimeModel",
+        ref: "Showtimes",
       },
     ],
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
+    },
   },
   {
     timestamps: true,

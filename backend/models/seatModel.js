@@ -4,7 +4,7 @@ const SeatSchema = new mongoose.Schema(
   {
     theaterID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "TheaterModel",
+      ref: "Theaters",
       required: true,
     },
     seatNumber: {

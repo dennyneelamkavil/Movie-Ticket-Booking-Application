@@ -4,12 +4,12 @@ const ShowtimeSchema = new mongoose.Schema(
   {
     movieID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "MovieModel",
+      ref: "Movies",
       required: true,
     },
     theaterID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "TheaterModel",
+      ref: "Theaters",
       required: true,
     },
     date: {
@@ -24,6 +24,10 @@ const ShowtimeSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 0,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
     },
   },
   {

@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogout } from "../auth/authSlice";
@@ -14,45 +15,55 @@ export default function TheaterOwnerForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isEditMode = Boolean(id);
+
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
   const { data, refetch } = useGetUserByIdQuery(id, {
     skip: !isEditMode,
   });
-  //   const theaterOwner = data?.user || {};
-  const theaterOwner = useMemo(() => data?.user || {}, [data]);
-
-  const [name, setName] = useState(theaterOwner.name || "");
-  const [phone, setPhone] = useState(theaterOwner.phone || "");
-  const [email, setEmail] = useState(theaterOwner.email || "");
-  const [lastLoggedIn] = useState(
-    theaterOwner.lastLoggedIn
-      ? new Date(theaterOwner.lastLoggedIn).toLocaleString()
-      : ""
-  );
-  const [password, setPassword] = useState("");
-  const [status, setStatus] = useState(
-    theaterOwner.isVerified ? "Verified" : "Not Verified"
-  );
-  const [city, setCity] = useState(theaterOwner.city || "");
 
   const [editUser] = useUpdateUserMutation();
   const [addUser] = useSignupMutation();
 
   useEffect(() => {
-    if (isEditMode && data) {
-      setName(theaterOwner.name || "");
-      setPhone(theaterOwner.phone || "");
-      setEmail(theaterOwner.email || "");
-      setStatus(theaterOwner.isVerified ? "Verified" : "Not Verified");
-      setCity(theaterOwner.city || "");
-      setPassword("");
+    if (isEditMode && data?.user) {
+      const theaterOwner = data.user;
+      setValue("name", theaterOwner.name || "");
+      setValue("phone", theaterOwner.phone || "");
+      setValue("email", theaterOwner.email || "");
+      setValue("status", theaterOwner.isVerified ? "Verified" : "Not Verified");
+      setValue("city", theaterOwner.city || "");
+      setValue(
+        "lastLoggedIn",
+        theaterOwner.lastLoggedIn
+          ? new Date(theaterOwner.lastLoggedIn).toLocaleString()
+          : ""
+      );
+      // Clear password field on edit
+      setValue("password", "");
     }
-  }, [data, isEditMode, theaterOwner]);
+  }, [data, isEditMode, setValue]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (formData) => {
     try {
+      const { name, phone, email, status, city, password } = formData;
       const isVerified = status === "Verified";
-      const userPayload = { name, phone, email, isVerified, city };
+      const role = "theaterOwner";
+      const userPayload = {
+        name,
+        phone,
+        email,
+        isVerified,
+        city,
+        password,
+        role,
+      };
+
       let res;
       if (isEditMode) {
         res = await editUser({ id, updatedUser: userPayload }).unwrap();
@@ -60,6 +71,7 @@ export default function TheaterOwnerForm() {
       } else {
         res = await addUser(userPayload).unwrap();
       }
+
       navigate("/dashboard/theaterOwnersList");
       toast.success(res.message);
     } catch (error) {
@@ -84,7 +96,7 @@ export default function TheaterOwnerForm() {
           </div>
 
           <div className="p-4 rounded-b-lg">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="flex justify-between space-x-4 mb-4">
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-gray-700">
@@ -92,11 +104,14 @@ export default function TheaterOwnerForm() {
                   </label>
                   <input
                     type="text"
-                    name="firstName"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    {...register("name", { required: "Name is required" })}
                     className="w-full border border-gray-300 rounded-md p-2"
                   />
+                  {errors.name && (
+                    <p className="text-red-500 text-sm">
+                      {errors.name.message}
+                    </p>
+                  )}
                 </div>
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-gray-700">
@@ -104,11 +119,16 @@ export default function TheaterOwnerForm() {
                   </label>
                   <input
                     type="text"
-                    name="phone"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    {...register("phone", {
+                      required: "Phone number is required",
+                    })}
                     className="w-full border border-gray-300 rounded-md p-2"
                   />
+                  {errors.phone && (
+                    <p className="text-red-500 text-sm">
+                      {errors.phone.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -118,12 +138,15 @@ export default function TheaterOwnerForm() {
                     Email
                   </label>
                   <input
-                    type="text"
-                    name="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    type="email"
+                    {...register("email", { required: "Email is required" })}
                     className="w-full border border-gray-300 rounded-md p-2"
                   />
+                  {errors.email && (
+                    <p className="text-red-500 text-sm">
+                      {errors.email.message}
+                    </p>
+                  )}
                 </div>
                 {isEditMode ? (
                   <div className="flex-1">
@@ -132,8 +155,7 @@ export default function TheaterOwnerForm() {
                     </label>
                     <input
                       type="text"
-                      name="lastLoggedIn"
-                      value={lastLoggedIn}
+                      {...register("lastLoggedIn")}
                       readOnly
                       className="w-full border border-gray-300 rounded-md p-2"
                     />
@@ -145,11 +167,16 @@ export default function TheaterOwnerForm() {
                     </label>
                     <input
                       type="password"
-                      name="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      {...register("password", {
+                        required: !isEditMode && "Password is required",
+                      })}
                       className="w-full border border-gray-300 rounded-md p-2"
                     />
+                    {errors.password && (
+                      <p className="text-red-500 text-sm">
+                        {errors.password.message}
+                      </p>
+                    )}
                   </div>
                 )}
               </div>
@@ -160,14 +187,19 @@ export default function TheaterOwnerForm() {
                     Verification Status
                   </label>
                   <select
-                    name="status"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
+                    {...register("status", {
+                      required: "Verification status is required",
+                    })}
                     className="w-full border border-gray-300 rounded-md p-2"
                   >
                     <option value="Verified">Verified</option>
                     <option value="Not Verified">Not Verified</option>
                   </select>
+                  {errors.status && (
+                    <p className="text-red-500 text-sm">
+                      {errors.status.message}
+                    </p>
+                  )}
                 </div>
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-gray-700">
@@ -175,11 +207,14 @@ export default function TheaterOwnerForm() {
                   </label>
                   <input
                     type="text"
-                    name="city"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                    {...register("city", { required: "City is required" })}
                     className="w-full border border-gray-300 rounded-md p-2"
                   />
+                  {errors.city && (
+                    <p className="text-red-500 text-sm">
+                      {errors.city.message}
+                    </p>
+                  )}
                 </div>
               </div>
 

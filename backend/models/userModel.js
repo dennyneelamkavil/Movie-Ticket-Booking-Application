@@ -37,7 +37,7 @@ const UserSchema = new mongoose.Schema(
     bookingHistory: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "BookingModel",
+        ref: "Bookings",
       },
     ],
   },

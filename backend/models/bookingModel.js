@@ -4,18 +4,18 @@ const BookingSchema = new mongoose.Schema(
   {
     userID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "UserModel",
+      ref: "Users",
       required: true,
     },
     showtimeID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "ShowtimeModel",
+      ref: "Showtimes",
       required: true,
     },
     seatID: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "SeatModel",
+        ref: "Seats",
         required: true,
       },
     ],

@@ -28,9 +28,13 @@ const MovieSchema = new mongoose.Schema(
     showtimes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "ShowtimeModel",
+        ref: "Showtimes",
       },
     ],
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
+    },
   },
   {
     timestamps: true,
