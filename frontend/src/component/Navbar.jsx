@@ -4,6 +4,7 @@ import { setCredentials, setLogout } from "../auth/authSlice";
 import { useState, useEffect, useRef } from "react";
 import cities from "../assets/cities.json";
 import { useUpdateUserMutation } from "../api/userApiSlice";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -35,11 +36,19 @@ export default function Navbar() {
   };
 
   const handleCitySelect = async (city) => {
-    const res = await updateUser({
-      id: user._id,
-      updatedUser: { city },
-    }).unwrap();
-    dispatch(setCredentials({ user: res.user }));
+    if (user && user.city !== city) {
+      const res = await updateUser({
+        id: user._id,
+        updatedUser: { city },
+      }).unwrap();
+      toast.success("City updated successfully");
+      dispatch(setCredentials({ user: res.user }));
+    } else if (!user) {
+      navigate("/login");
+      toast.info("Please login to change city");
+    } else {
+      toast.info("City already selected");
+    }
     setModalOpen(false);
   };
 
@@ -63,11 +72,13 @@ export default function Navbar() {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">MoviePass</a>
+        <Link to="/" className="btn btn-ghost text-xl">
+          Movie Pass
+        </Link>
       </div>
       <div className="flex-none gap-2">
         <button className="btn" onClick={() => setModalOpen(true)}>
-          {user.city || "Select City"}
+          {user?.city || "Select City"}
         </button>
 
         {modalOpen && (

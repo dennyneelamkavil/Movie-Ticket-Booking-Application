@@ -3,6 +3,7 @@ import { baseQuery } from "./baseQuery";
 
 export const userApi = createApi({
   reducerPath: "userApi",
+  refetchOnMountOrArgChange: 30,
   baseQuery: baseQuery("users"),
   endpoints: (builder) => ({
     login: builder.mutation({
@@ -26,8 +27,36 @@ export const userApi = createApi({
         body: updatedUser,
       }),
     }),
+    getTheaterOwners: builder.query({
+      query: () => "/theaterOwnerlist",
+    }),
+    getUserById: builder.query({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "GET",
+      }),
+    }),
+    deleteUser: builder.mutation({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    verifyUser: builder.mutation({
+      query: (id) => ({
+        url: `/verify/${id}`,
+        method: "PUT",
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useSignupMutation, useUpdateUserMutation } =
-  userApi;
+export const {
+  useLoginMutation,
+  useSignupMutation,
+  useUpdateUserMutation,
+  useGetTheaterOwnersQuery,
+  useDeleteUserMutation,
+  useVerifyUserMutation,
+  useGetUserByIdQuery,
+} = userApi;

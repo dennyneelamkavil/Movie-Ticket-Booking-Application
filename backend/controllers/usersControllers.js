@@ -59,3 +59,21 @@ export async function deleteUser(req, res) {
   }
   res.status(200).json({ message: "User deleted successfully" });
 }
+
+export async function getTheaterOwners(req, res) {
+  const theaterOwners = await UserModel.find({ role: "theaterOwner" });
+  if (!theaterOwners) {
+    return res.status(404).json({ message: "Theater owners not found" });
+  }
+  res.status(200).json({ theaterOwners: theaterOwners, message: "Success" });
+}
+
+export async function verifyUser(req, res) {
+  const { id } = req.params;
+  const user = await UserModel.findById(id);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  const updatedUser = await UserModel.findOneAndUpdate({ _id: id }, { isVerified: !user.isVerified }, { new: true });
+  res.status(200).json({ user: updatedUser, message: `User ${updatedUser.isVerified ? "verified" : "unverified"}` });
+}

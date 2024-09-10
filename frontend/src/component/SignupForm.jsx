@@ -44,6 +44,15 @@ export default function SignupForm() {
           <p className="text-red-500 text-sm">{errors.name.message}</p>
         )}
         <input
+          type="text"
+          placeholder="Phone"
+          className="input input-bordered w-full"
+          {...register("phone", { required: "Phone is required" })}
+        />
+        {errors.phone && (
+          <p className="text-red-500 text-sm">{errors.phone.message}</p>
+        )}
+        <input
           type="email"
           placeholder="Email"
           className="input input-bordered w-full"
