@@ -2,6 +2,7 @@ import TheaterModel from "../models/theaterModel.js";
 
 export async function addNewTheater(req, res) {
     const theaterDetails = req.body;
+    theaterDetails.createdBy = req.user.id;
     const theater = new TheaterModel(theaterDetails);
     console.log(theater);
     await theater.save();
@@ -20,6 +21,12 @@ export async function getTheaterById(req, res) {
         return res.status(404).json({ message: "Theater not found" });
     }
     res.status(200).json({ theater: theater });
+}
+
+export async function getTheaterByOwner(req, res) {
+    const { id } = req.params;
+    const theaters = await TheaterModel.find({ createdBy: id });
+    res.status(200).json({ theaters: theaters });
 }
 
 export async function updateTheater(req, res) {

@@ -5,8 +5,8 @@ if (!secretKey) {
   throw new Error("JWT_SECRETKEY is not defined in the environment variables.");
 }
 
-export function generateToken(name, email, role) {
-  const userData = { name, email, role };
+export function generateToken(name, email, role, id) {
+  const userData = { name, email, role, id };
   const options = { expiresIn: "1d", issuer: "backend server", audience: "frontend server" };
   const token = jwt.sign(userData, secretKey, options);
   return token;

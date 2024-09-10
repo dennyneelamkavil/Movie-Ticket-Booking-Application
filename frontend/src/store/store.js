@@ -4,6 +4,8 @@ import { persistStore, persistReducer } from "redux-persist";
 import authReducer from "../auth/authSlice";
 import storage from "redux-persist/lib/storage";
 import { userApi } from "../api/userApiSlice";
+import { theaterApi } from "../api/theaterSlice";
+import { movieApi } from "../api/movieSlice";
 
 const persistConfig = {
   key: "root",
@@ -13,6 +15,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   [userApi.reducerPath]: userApi.reducer,
+  [theaterApi.reducerPath]: theaterApi.reducer,
+  [movieApi.reducerPath]: movieApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -23,7 +27,10 @@ export const store = configureStore({
     getDefaultMiddleware({
       immutableCheck: false,
       serializableCheck: false,
-    }).concat(userApi.middleware),
+    })
+      .concat(userApi.middleware)
+      .concat(theaterApi.middleware)
+      .concat(movieApi.middleware),
 });
 
 export const persistor = persistStore(store);
