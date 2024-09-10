@@ -3,10 +3,10 @@ import MovieModel from "../models/movieModel.js";
 export async function addNewMovie(req, res) {
     const movieDetails = req.body;
     movieDetails.createdBy = req.user._id;
-    if(req.file){
+    if (req.file) {
         movieDetails.image = req.file.path;
         movieDetails.imagePublicId = req.file.filename;
-    }
+      }
     const movie = new MovieModel(movieDetails);
     console.log(movie);
     await movie.save();

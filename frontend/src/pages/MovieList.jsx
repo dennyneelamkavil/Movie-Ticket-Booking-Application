@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setLogout } from "../auth/authSlice";
 import {
   useGetAllMoviesQuery,
@@ -143,7 +143,7 @@ export default function MovieList() {
                         {movie.genre}
                       </td>
                       <td className="border border-gray-300 p-3">
-                        <img src={movie.image} alt={movie.title} />
+                        <img src={movie.image} alt={movie.title} width={50} />
                       </td>
                       <td className="border border-gray-300 p-3">
                         {movie.rating}

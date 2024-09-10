@@ -44,13 +44,17 @@ export default function MovieForm() {
   const onSubmit = async (formData) => {
     try {
       const { title, description, duration, genre, image } = formData;
-      const moviePayload = {
-        title,
-        description,
-        duration: Number(duration),
-        genre: genre.split(",").map((g) => g.trim()),
-        poster: image,
-      };
+      const moviePayload = new FormData();
+      moviePayload.append("title", title);
+      moviePayload.append("description", description);
+      moviePayload.append("duration", Number(duration));
+      moviePayload.append(
+        "genre",
+        genre.split(",").map((g) => g.trim())
+      );
+      if (image[0]) {
+        moviePayload.append("poster", image[0]);
+      }
 
       let res;
       if (isEditMode) {
