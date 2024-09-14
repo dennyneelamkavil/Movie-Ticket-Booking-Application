@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogout } from "../auth/authSlice";
@@ -9,6 +9,8 @@ import {
   useGetTheaterByIdQuery,
 } from "../api/theaterSlice";
 import { toast } from "react-toastify";
+import seatingLayout from "../assets/seatLayout.json";
+
 export default function TheaterForm() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -28,23 +30,25 @@ export default function TheaterForm() {
 
   const [updateTheater] = useUpdateTheaterMutation();
   const [addNewTheater] = useAddNewTheaterMutation();
+  const [seatingLayoutState, setSeatingLayoutState] = useState(seatingLayout);
+  
 
   useEffect(() => {
     if (isEditMode && data?.theater) {
       const theater = data.theater;
       setValue("name", theater.name || "");
       setValue("location", theater.location || "");
-      setValue("showtimes", theater.showtimes || "");
+      setSeatingLayoutState(theater.seatingLayout || seatingLayout);
     }
   }, [data, isEditMode, setValue]);
 
   const onSubmit = async (formData) => {
     try {
-      const { name, location, showtimes } = formData;
+      const { name, location } = formData;
       const theaterPayload = {
         name,
         location,
-        showtimes,
+        seatingLayout: seatingLayoutState,
       };
 
       let res;
@@ -118,25 +122,7 @@ export default function TheaterForm() {
                 </div>
               </div>
 
-              <div className="flex justify-between space-x-4 mb-4">
-                <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Showtimes
-                  </label>
-                  <input
-                    type="text"
-                    {...register("showtimes", {
-                      required: "Showtimes is required",
-                    })}
-                    className="w-full border border-gray-300 rounded-md p-2"
-                  />
-                  {errors.showtimes && (
-                    <p className="text-red-500 text-sm">
-                      {errors.showtimes.message}
-                    </p>
-                  )}
-                </div>
-              </div>
+              {/* Seating layout information can be added here */}
 
               <div className="flex justify-end space-x-2 pt-4">
                 <button

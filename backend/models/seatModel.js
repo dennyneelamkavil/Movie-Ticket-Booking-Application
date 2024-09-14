@@ -7,13 +7,13 @@ const SeatSchema = new mongoose.Schema(
       ref: "Theaters",
       required: true,
     },
-    seatNumber: {
-      type: Number,
+    seatID: {
+      type: String,
       required: true,
     },
     seatType: {
       type: String,
-      enum: ["Standard", "Premium"],
+      enum: ["standard", "premium"],
       required: true,
     },
     isAvailable: {
@@ -26,7 +26,7 @@ const SeatSchema = new mongoose.Schema(
   }
 );
 
-SeatSchema.index({ theaterID: 1, seatNumber: 1 }, { unique: true });
+SeatSchema.index({ theaterID: 1, seatID: 1 }, { unique: true });
 
 const SeatModel = mongoose.model("Seats", SeatSchema);
 
