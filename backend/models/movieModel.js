@@ -18,6 +18,7 @@ const MovieSchema = new mongoose.Schema(
       type: [String],
       required: true,
     },
+    trailerUrl: String,
     image: String,
     imagePublicId: String,
     rating: {

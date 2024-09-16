@@ -37,13 +37,15 @@ export default function MovieForm() {
       setValue("description", movie.description || "");
       setValue("duration", movie.duration || "");
       setValue("genre", movie.genre.join(", ") || "");
+      setValue("trailerUrl", movie.trailerUrl || "");
       setImagePreview(movie.image || null);
     }
   }, [data, isEditMode, setValue]);
 
   const onSubmit = async (formData) => {
     try {
-      const { title, description, duration, genre, image } = formData;
+      const { title, description, duration, genre, trailerUrl, image } =
+        formData;
       const moviePayload = new FormData();
       moviePayload.append("title", title);
       moviePayload.append("description", description);
@@ -52,6 +54,7 @@ export default function MovieForm() {
         "genre",
         genre.split(",").map((g) => g.trim())
       );
+      moviePayload.append("trailerUrl", trailerUrl);
       if (image[0]) {
         moviePayload.append("poster", image[0]);
       }
@@ -167,6 +170,35 @@ export default function MovieForm() {
                     </p>
                   )}
                 </div>
+              </div>
+
+              <div className="flex justify-between space-x-4 mb-4">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Trailer Link (Only provide the Video ID)
+                    <br />
+                    <span className="text-xs text-gray-500">
+                      (e.g. https://www.youtube.com/watch?v=
+                      <span className="font-semibold">123456789</span>
+                      <br />
+                      Here <span className="font-semibold">123456789</span> is
+                      the video ID)
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    {...register("trailerUrl", {
+                      required: "Trailer link is required",
+                    })}
+                    className="w-full border border-gray-300 rounded-md p-2"
+                  />
+                  {errors.trailerUrl && (
+                    <p className="text-red-500 text-sm">
+                      {errors.trailerUrl.message}
+                    </p>
+                  )}
+                </div>
+                <div className="flex-1"></div>
               </div>
 
               <div className="flex justify-between space-x-4 mb-4">

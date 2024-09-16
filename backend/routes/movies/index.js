@@ -14,8 +14,8 @@ import upload from "../../utils/multer.js";
 const moviesRouter = Router();
 
 moviesRouter.post("/addnew", verifyToken, checkAuth("theaterOwner"),upload.single("poster"), asyncHandler(addNewMovie));
-moviesRouter.get("/all", verifyToken, asyncHandler(getAllMovies));
-moviesRouter.get("/:id", verifyToken, asyncHandler(getMovieById));
+moviesRouter.get("/all", asyncHandler(getAllMovies));
+moviesRouter.get("/:id", asyncHandler(getMovieById));
 moviesRouter.put("/:id", verifyToken, checkAuth("theaterOwner"),upload.single("poster"), asyncHandler(updateMovie));
 moviesRouter.delete("/:id", verifyToken, checkAuth("theaterOwner"), asyncHandler(deleteMovie));
 

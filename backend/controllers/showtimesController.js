@@ -1,11 +1,18 @@
+import MovieModel from "../models/movieModel.js";
 import ShowtimeModel from "../models/showtimeModel.js";
+import TheaterModel from "../models/theaterModel.js";
 
 export async function addNewShowtime(req, res) {
   const showtimeDetails = req.body;
   const showtime = new ShowtimeModel(showtimeDetails);
-  console.log(showtime);
   await showtime.save();
-  res.status(201).json({ message: "Showtime created successfully" });
+  const movie = await MovieModel.findById(showtime.movieID);
+  movie.showtimes.push(showtime._id);
+  await movie.save();
+  const theater = await TheaterModel.findById(showtime.theaterID);
+  theater.showtimes.push(showtime._id);
+  await theater.save();
+  res.status(201).json({ message: "Showtime created and movie updated successfully" });
 }
 
 export async function getShowtimeByTheater(req, res) {

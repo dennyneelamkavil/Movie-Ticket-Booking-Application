@@ -48,13 +48,13 @@ export async function addNewTheater(req, res) {
 }
 
 export async function getAllTheaters(req, res) {
-  const theaters = await TheaterModel.find();
+  const theaters = await TheaterModel.find().populate("showtimes");
   res.status(200).json({ theaters: theaters });
 }
 
 export async function getTheaterById(req, res) {
   const { id } = req.params;
-  const theater = await TheaterModel.findById(id);
+  const theater = await TheaterModel.findById(id).populate("showtimes");
   if (!theater) {
     return res.status(404).json({ message: "Theater not found" });
   }
@@ -63,7 +63,9 @@ export async function getTheaterById(req, res) {
 
 export async function getTheaterByOwner(req, res) {
   const { id } = req.params;
-  const theaters = await TheaterModel.find({ createdBy: id });
+  const theaters = await TheaterModel.find({ createdBy: id }).populate(
+    "showtimes"
+  );
   res.status(200).json({ theaters: theaters });
 }
 

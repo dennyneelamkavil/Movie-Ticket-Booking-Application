@@ -1,95 +1,64 @@
 import { useParams } from "react-router-dom";
+import { useGetMovieByIdQuery } from "../api/movieSlice";
 
 export default function MovieDetails() {
-  const movieData = [
-    {
-      id: 1,
-      title: "Movie Title",
-      img: "/animal.jpeg",
-      description:
-        "Movie Decription,Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse dolor veniam quo rerum accusantium perspiciatis unde eveniet cum dolores repellendus, in maiores rem dolore amet alias. Autem commodi eius vel.",
-    },
-    {
-      id: 2,
-      title: "Movie Title",
-      img: "/beekeeper.jpg",
-      description:
-        "Movie Decription,Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse dolor veniam quo rerum accusantium perspiciatis unde eveniet cum dolores repellendus, in maiores rem dolore amet alias. Autem commodi eius vel.",
-    },
-    {
-      id: 3,
-      title: "Movie Title",
-      img: "/fallguy.jpeg",
-      description:
-        "Movie Decription,Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse dolor veniam quo rerum accusantium perspiciatis unde eveniet cum dolores repellendus, in maiores rem dolore amet alias. Autem commodi eius vel.",
-    },
-    {
-      id: 4,
-      title: "Movie Title",
-      img: "/fighter.jpg",
-      description:
-        "Movie Decription,Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse dolor veniam quo rerum accusantium perspiciatis unde eveniet cum dolores repellendus, in maiores rem dolore amet alias. Autem commodi eius vel.",
-    },
-    {
-      id: 5,
-      title: "Movie Title",
-      img: "/lift.avif",
-      description:
-        "Movie Decription,Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse dolor veniam quo rerum accusantium perspiciatis unde eveniet cum dolores repellendus, in maiores rem dolore amet alias. Autem commodi eius vel.",
-    },
-    {
-      id: 123,
-      title: "Movie Title",
-      img: "/painter.avif",
-      description:
-        "Movie Decription,Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse dolor veniam quo rerum accusantium perspiciatis unde eveniet cum dolores repellendus, in maiores rem dolore amet alias. Autem commodi eius vel.",
-    },
-    {
-      id: 1566,
-      title: "Movie Title",
-      img: "/animal.jpeg",
-      description:
-        "Movie Decription,Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse dolor veniam quo rerum accusantium perspiciatis unde eveniet cum dolores repellendus, in maiores rem dolore amet alias. Autem commodi eius vel.",
-    },
-    {
-      id: 1644,
-      title: "Movie Title",
-      img: "/beekeeper.jpg",
-      description:
-        "Movie Decription,Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse dolor veniam quo rerum accusantium perspiciatis unde eveniet cum dolores repellendus, in maiores rem dolore amet alias. Autem commodi eius vel.",
-    },
-    {
-      id: 16161,
-      title: "Movie Title",
-      img: "/fallguy.jpeg",
-      description:
-        "Movie Decription,Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse dolor veniam quo rerum accusantium perspiciatis unde eveniet cum dolores repellendus, in maiores rem dolore amet alias. Autem commodi eius vel.",
-    },
-    {
-      id: 1941,
-      title: "Movie Title",
-      img: "/fighter.jpg",
-      description:
-        "Movie Decription,Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse dolor veniam quo rerum accusantium perspiciatis unde eveniet cum dolores repellendus, in maiores rem dolore amet alias. Autem commodi eius vel.",
-    },
-    // Add more movie objects as needed
-  ];
   const { movieId } = useParams();
-  const movie = movieData.find((movie) => movie.id === Number(movieId));
-
+  const { data } = useGetMovieByIdQuery(movieId);
+  const movie = data?.movie || {};
   if (!movie) {
     return <div className="container mx-auto p-4">Movie not found.</div>;
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="card bg-base-100 w-96 shadow-xl">
+    <div className="container mx-auto p-4 flex flex-col lg:flex-row gap-8">
+      <div className="card bg-base-100 shadow-xl w-1/2">
         <figure>
-          <img src={movie.img} alt={movie.title} className="w-full h-auto max-h-96 object-contain" />
+          <img
+            src={movie.image}
+            alt={movie.title}
+            className="w-full h-auto max-h-96 object-contain"
+          />
         </figure>
         <div className="card-body">
           <h2 className="card-title">{movie.title}</h2>
           <p>{movie.description}</p>
+          <p>Rating: {movie.rating}</p>
+          <p>Duration: {movie.duration} minutes</p>
+          <p>Genre: {movie.genre}</p>
+        </div>
+      </div>
+      <div className="flex flex-col gap-6 w-full">
+        {movie.trailerUrl ? (
+          <div className="w-full h-96">
+            <iframe
+              className="w-full h-full"
+              src={`https://www.youtube.com/embed/${movie.trailerUrl}`}
+              title={`${movie.title} Trailer`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            ></iframe>
+          </div>
+        ) : (
+          <div className="text-center p-4">No trailer available</div>
+        )}
+        <div className="card bg-base-100 w-full shadow-xl">
+          <div className="card-body">
+            <h3 className="text-xl font-semibold">Available Showtimes</h3>
+            <ul className="space-y-2">
+              {movie.showtimes?.map((showtime, index) => (
+                <li key={index} className="flex justify-between">
+                  <span>{showtime.theaterID.name}</span>
+                  <span>{new Date(showtime.date).toDateString()}</span>
+                  <span>{showtime.time}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className="flex justify-center">
+          <button className="btn btn-primary w-full lg:w-1/2">
+            Book Tickets
+          </button>
         </div>
       </div>
     </div>
