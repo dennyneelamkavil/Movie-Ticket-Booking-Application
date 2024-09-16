@@ -7,6 +7,7 @@ import {
   deleteShowtime,
   getAllShowtimes,
   getShowtimeById,
+  getShowtimeByTheater,
   updateShowtime,
 } from "../../controllers/showtimesController.js";
 
@@ -14,6 +15,7 @@ const showtimesRouter = Router();
 
 showtimesRouter.post("/addnew", verifyToken, checkAuth("theaterOwner"), asyncHandler(addNewShowtime));
 showtimesRouter.get("/all", verifyToken, asyncHandler(getAllShowtimes));
+showtimesRouter.get("/theater/:theaterID", verifyToken, asyncHandler(getShowtimeByTheater));
 showtimesRouter.get("/:id", verifyToken, asyncHandler(getShowtimeById));
 showtimesRouter.put("/:id", verifyToken, checkAuth("theaterOwner"), asyncHandler(updateShowtime));
 showtimesRouter.delete("/:id", verifyToken, checkAuth("theaterOwner"), asyncHandler(deleteShowtime));

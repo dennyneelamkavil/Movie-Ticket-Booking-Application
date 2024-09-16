@@ -64,9 +64,9 @@ export const router = createBrowserRouter([
           {
             path: "showtimes",
             children: [
-              { path: "", element: <ShowtimesList /> },
-              { path: "add", element: <ShowtimesForm /> },
-              { path: "edit/:id", element: <ShowtimesForm /> },
+              { path: ":id", element: <ShowtimesList /> },
+              { path: ":theaterID/add", element: <ShowtimesForm /> },
+              { path: ":theaterID/edit/:showtimeID", element: <ShowtimesForm /> },
             ],
           },
           {

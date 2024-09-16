@@ -1,5 +1,5 @@
 import { FaUsers, FaAd, FaInfoCircle } from "react-icons/fa";
-import Cards from "../../ui/Cards.jsx";
+import Cards from "../ui/Cards.jsx";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 // import useCheckUserStatus from "../utils/useCheckUserStatus";
@@ -15,12 +15,6 @@ export default function TheaterOwnerDashboard() {
       title: "Theaters",
       style: "bg-blue-500",
       path: "/dashboard/theaters",
-    },
-    {
-      icon: <FaAd />,
-      title: "ShowTimes",
-      style: "bg-green-500",
-      path: "/dashboard/showtimes",
     },
     {
       icon: <FaInfoCircle />,

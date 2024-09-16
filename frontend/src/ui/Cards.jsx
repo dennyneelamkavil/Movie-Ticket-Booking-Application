@@ -1,6 +1,6 @@
 function Cards({ title, icon, handleNavigate, style }) {
   return (
-    <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 p-2">
+    <div className="w-full">
       <div
         className={`${style} rounded-lg shadow-md p-4 flex flex-col items-center text-white cursor-pointer transform hover:opacity-90 transition-all duration-300`}
         onClick={handleNavigate}

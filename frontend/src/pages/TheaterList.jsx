@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { GrView } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogout } from "../auth/authSlice";
@@ -128,7 +129,16 @@ export default function TheaterList() {
                         {theater.location}
                       </td>
                       <td className="border border-gray-300 p-3">
-                        {theater.showtimes}
+                        <div className="flex justify-center items-center">
+                          <button
+                            onClick={() =>
+                              navigate(`/dashboard/showtimes/${theater._id}`)
+                            }
+                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded flex items-center"
+                          >
+                            <GrView />
+                          </button>
+                        </div>
                       </td>
                       <td className="border border-gray-300 p-3">
                         <div className="flex justify-center items-center">

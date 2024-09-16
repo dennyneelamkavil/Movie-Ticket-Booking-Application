@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogout } from "../auth/authSlice";
+import cities from "../assets/cities.json";
 import {
   useAddNewTheaterMutation,
   useUpdateTheaterMutation,
@@ -31,7 +32,6 @@ export default function TheaterForm() {
   const [updateTheater] = useUpdateTheaterMutation();
   const [addNewTheater] = useAddNewTheaterMutation();
   const [seatingLayoutState, setSeatingLayoutState] = useState(seatingLayout);
-  
 
   useEffect(() => {
     if (isEditMode && data?.theater) {
@@ -107,13 +107,19 @@ export default function TheaterForm() {
                   <label className="block text-sm font-medium text-gray-700">
                     Location
                   </label>
-                  <input
-                    type="text"
+                  <select
                     {...register("location", {
                       required: "Location is required",
                     })}
                     className="w-full border border-gray-300 rounded-md p-2"
-                  />
+                  >
+                    <option value="">Select Location</option>
+                    {cities.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
                   {errors.location && (
                     <p className="text-red-500 text-sm">
                       {errors.location.message}

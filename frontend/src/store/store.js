@@ -6,6 +6,7 @@ import storage from "redux-persist/lib/storage";
 import { userApi } from "../api/userApiSlice";
 import { theaterApi } from "../api/theaterSlice";
 import { movieApi } from "../api/movieSlice";
+import { showtimeApi } from "../api/showtimeSlice";
 
 const persistConfig = {
   key: "root",
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
   [theaterApi.reducerPath]: theaterApi.reducer,
   [movieApi.reducerPath]: movieApi.reducer,
+  [showtimeApi.reducerPath]: showtimeApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -30,7 +32,8 @@ export const store = configureStore({
     })
       .concat(userApi.middleware)
       .concat(theaterApi.middleware)
-      .concat(movieApi.middleware),
+      .concat(movieApi.middleware)
+      .concat(showtimeApi.middleware),
 });
 
 export const persistor = persistStore(store);

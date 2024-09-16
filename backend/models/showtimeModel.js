@@ -35,7 +35,7 @@ const ShowtimeSchema = new mongoose.Schema(
   }
 );
 
-ShowtimeSchema.index({ movieID: 1, date: 1, time: 1 }, { unique: true });
+ShowtimeSchema.index({ movieID: 1,theaterID: 1, date: 1, time: 1 }, { unique: true });
 
 const ShowtimeModel = mongoose.model("Showtimes", ShowtimeSchema);
 

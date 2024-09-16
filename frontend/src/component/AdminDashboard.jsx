@@ -1,5 +1,5 @@
 import { FaUsers, FaUserShield, FaAd, FaInfoCircle } from "react-icons/fa";
-import Cards from "../../ui/Cards.jsx";
+import Cards from "../ui/Cards.jsx";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 // import useCheckUserStatus from "../utils/useCheckUserStatus";
