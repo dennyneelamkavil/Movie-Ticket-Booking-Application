@@ -6,16 +6,32 @@ const MovieSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    year: {
+      type: Number,
+      required: true,
+    },
     description: {
       type: String,
       required: true,
     },
-    duration: {
-      type: Number,
-      required: true,
-    },
     genre: {
       type: [String],
+      required: true,
+    },
+    director: {
+      type: [String],
+      required: true,
+    },
+    writers: {
+      type: [String],
+      required: true,
+    },
+    stars: {
+      type: [String],
+      required: true,
+    },
+    duration: {
+      type: Number,
       required: true,
     },
     trailerUrl: String,

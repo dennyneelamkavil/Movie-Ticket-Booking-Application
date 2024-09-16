@@ -1,8 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useGetMovieByIdQuery } from "../api/movieSlice";
+import { useState } from "react";
 
 export default function MovieDetails() {
   const { movieId } = useParams();
+  const [isExpanded, setIsExpanded] = useState(false);
   const { data } = useGetMovieByIdQuery(movieId);
   const movie = data?.movie || {};
   if (!movie) {
@@ -21,10 +23,15 @@ export default function MovieDetails() {
         </figure>
         <div className="card-body">
           <h2 className="card-title">{movie.title}</h2>
-          <p>{movie.description}</p>
-          <p>Rating: {movie.rating}</p>
-          <p>Duration: {movie.duration} minutes</p>
-          <p>Genre: {movie.genre}</p>
+          <p className={`${isExpanded ? "" : "line-clamp-6"}`}>
+            {movie.description}
+          </p>
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-blue-500 mt-2 underline text-sm"
+          >
+            {isExpanded ? "Read Less" : "Read More"}
+          </button>
         </div>
       </div>
       <div className="flex flex-col gap-6 w-full">
@@ -43,7 +50,22 @@ export default function MovieDetails() {
         )}
         <div className="card bg-base-100 w-full shadow-xl">
           <div className="card-body">
-            <h3 className="text-xl font-semibold">Available Showtimes</h3>
+            <div className="flex justify-between">
+              <div className="flex-1">
+                <h2 className="text-lg font-semibold">Duration: </h2>
+                <p>{movie.duration} minutes</p>
+              </div>
+              <div className="flex-1">
+                <h2 className="text-lg font-semibold">Genre: </h2>
+                <p>{movie.genre}</p>
+              </div>
+              <div className="flex-1">
+                <h2 className="text-lg font-semibold">Rating: </h2>
+                <p>{movie.rating}</p>
+              </div>
+            </div>
+
+            <h3 className="text-xl font-semibold mt-5">Available Showtimes</h3>
             <ul className="space-y-2">
               {movie.showtimes?.map((showtime, index) => (
                 <li key={index} className="flex justify-between">

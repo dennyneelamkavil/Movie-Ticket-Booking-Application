@@ -34,9 +34,13 @@ export default function MovieForm() {
     if (isEditMode && data?.movie) {
       const movie = data.movie;
       setValue("title", movie.title || "");
+      setValue("year", movie.year || "");
       setValue("description", movie.description || "");
-      setValue("duration", movie.duration || "");
       setValue("genre", movie.genre.join(", ") || "");
+      setValue("director", movie.director.join(", ") || "");
+      setValue("writers", movie.writers.join(", ") || "");
+      setValue("stars", movie.stars.join(", ") || "");
+      setValue("duration", movie.duration || "");
       setValue("trailerUrl", movie.trailerUrl || "");
       setImagePreview(movie.image || null);
     }
@@ -44,16 +48,39 @@ export default function MovieForm() {
 
   const onSubmit = async (formData) => {
     try {
-      const { title, description, duration, genre, trailerUrl, image } =
-        formData;
+      const {
+        title,
+        year,
+        description,
+        genre,
+        director,
+        writers,
+        stars,
+        duration,
+        trailerUrl,
+        image,
+      } = formData;
       const moviePayload = new FormData();
       moviePayload.append("title", title);
+      moviePayload.append("year", Number(year));
       moviePayload.append("description", description);
-      moviePayload.append("duration", Number(duration));
       moviePayload.append(
         "genre",
         genre.split(",").map((g) => g.trim())
       );
+      moviePayload.append(
+        "director",
+        director.split(",").map((d) => d.trim())
+      );
+      moviePayload.append(
+        "writers",
+        writers.split(",").map((w) => w.trim())
+      );
+      moviePayload.append(
+        "stars",
+        stars.split(",").map((s) => s.trim())
+      );
+      moviePayload.append("duration", Number(duration));
       moviePayload.append("trailerUrl", trailerUrl);
       if (image[0]) {
         moviePayload.append("poster", image[0]);
@@ -120,18 +147,122 @@ export default function MovieForm() {
                 </div>
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-gray-700">
-                    Description
+                    Year Released
                   </label>
                   <input
                     type="text"
+                    {...register("year", {
+                      required: "Year is required",
+                      validate: (value) =>
+                        (!isNaN(value) && Number(value) > 0) ||
+                        "Year must be a positive number",
+                    })}
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }}
+                    className="w-full border border-gray-300 rounded-md p-2"
+                  />
+                  {errors.year && (
+                    <p className="text-red-500 text-sm">
+                      {errors.year.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex justify-between space-x-4 mb-4">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Description
+                  </label>
+                  <textarea
                     {...register("description", {
                       required: "Description is required",
                     })}
                     className="w-full border border-gray-300 rounded-md p-2"
+                    rows="4"
                   />
                   {errors.description && (
                     <p className="text-red-500 text-sm">
                       {errors.description.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex justify-between space-x-4 mb-4">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Genre
+                    <span className="text-xs text-gray-500">
+                      (comma separated)
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    {...register("genre", { required: "Genre is required" })}
+                    className="w-full border border-gray-300 rounded-md p-2"
+                  />
+                  {errors.genre && (
+                    <p className="text-red-500 text-sm">
+                      {errors.genre.message}
+                    </p>
+                  )}
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Director
+                  </label>
+                  <input
+                    type="text"
+                    {...register("director", {
+                      required: "Director is required",
+                    })}
+                    className="w-full border border-gray-300 rounded-md p-2"
+                  />
+                  {errors.director && (
+                    <p className="text-red-500 text-sm">
+                      {errors.director.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex justify-between space-x-4 mb-4">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Writers
+                  </label>
+                  <input
+                    type="text"
+                    {...register("writers", {
+                      required: "Writers is required",
+                    })}
+                    className="w-full border border-gray-300 rounded-md p-2"
+                  />
+                  {errors.writers && (
+                    <p className="text-red-500 text-sm">
+                      {errors.writers.message}
+                    </p>
+                  )}
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Stars
+                    <span className="text-xs text-gray-500">
+                      (comma separated)
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    {...register("stars", {
+                      required: "Stars is required",
+                    })}
+                    className="w-full border border-gray-300 rounded-md p-2"
+                  />
+                  {errors.stars && (
+                    <p className="text-red-500 text-sm">
+                      {errors.stars.message}
                     </p>
                   )}
                 </div>
@@ -146,8 +277,14 @@ export default function MovieForm() {
                     type="text"
                     {...register("duration", {
                       required: "Duration is required",
+                      validate: (value) =>
+                        (!isNaN(value) && Number(value) > 0) ||
+                        "Duration must be a positive number",
                     })}
-                    className="w-full border border-gray-300 rounded-md p-2"
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }}
+                    className="w-full border border-gray-300 rounded-md p-2 appearance-none"
                   />
                   {errors.duration && (
                     <p className="text-red-500 text-sm">
@@ -157,33 +294,7 @@ export default function MovieForm() {
                 </div>
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-gray-700">
-                    Genre (comma separated)
-                  </label>
-                  <input
-                    type="text"
-                    {...register("genre", { required: "Genre is required" })}
-                    className="w-full border border-gray-300 rounded-md p-2"
-                  />
-                  {errors.genre && (
-                    <p className="text-red-500 text-sm">
-                      {errors.genre.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex justify-between space-x-4 mb-4">
-                <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-700">
                     Trailer Link (Only provide the Video ID)
-                    <br />
-                    <span className="text-xs text-gray-500">
-                      (e.g. https://www.youtube.com/watch?v=
-                      <span className="font-semibold">123456789</span>
-                      <br />
-                      Here <span className="font-semibold">123456789</span> is
-                      the video ID)
-                    </span>
                   </label>
                   <input
                     type="text"
@@ -192,13 +303,19 @@ export default function MovieForm() {
                     })}
                     className="w-full border border-gray-300 rounded-md p-2"
                   />
+                  <span className="text-xs text-gray-500">
+                    (e.g. https://www.youtube.com/watch?v=
+                    <span className="font-semibold">123456789</span>
+                    <br />
+                    Here <span className="font-semibold">123456789</span> is the
+                    video ID)
+                  </span>
                   {errors.trailerUrl && (
                     <p className="text-red-500 text-sm">
                       {errors.trailerUrl.message}
                     </p>
                   )}
                 </div>
-                <div className="flex-1"></div>
               </div>
 
               <div className="flex justify-between space-x-4 mb-4">

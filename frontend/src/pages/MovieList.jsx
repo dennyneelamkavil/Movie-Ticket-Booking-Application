@@ -91,7 +91,7 @@ export default function MovieList() {
                 <tr className="bg-blue-500 text-white">
                   <th className="border border-gray-300 p-3 text-left">No</th>
                   <th className="border border-gray-300 p-3 text-left">Title</th>
-                  <th className="border border-gray-300 p-3 text-left">
+                  <th className="border border-gray-300 p-3 text-left w-2/6">
                     Description
                   </th>
                   <th className="border border-gray-300 p-3 text-left">
@@ -133,7 +133,7 @@ export default function MovieList() {
                       <td className="border border-gray-300 p-3">
                         {movie.title}
                       </td>
-                      <td className="border border-gray-300 p-3">
+                      <td className="p-3 pb-0 line-clamp-4">
                         {movie.description}
                       </td>
                       <td className="border border-gray-300 p-3">

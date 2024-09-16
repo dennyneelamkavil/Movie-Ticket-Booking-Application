@@ -1,4 +1,4 @@
-import { FaUsers, FaAd, FaInfoCircle } from "react-icons/fa";
+import { FaUsers, FaInfoCircle } from "react-icons/fa";
 import Cards from "../ui/Cards.jsx";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
