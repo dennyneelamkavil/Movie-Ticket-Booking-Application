@@ -9,7 +9,7 @@ import {
 } from "../api/showtimeSlice";
 import { toast } from "react-toastify";
 import { useGetTheaterByIdQuery } from "../api/theaterSlice";
-import formatTime from "../../utils/formatTime";
+import formatTime from "../utils/formatTime";
 
 export default function ShowtimesList() {
   const { id: theaterID } = useParams();

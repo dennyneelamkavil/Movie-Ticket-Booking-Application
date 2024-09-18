@@ -17,6 +17,8 @@ import RouteNotFound from "./pages/RouteNotFound";
 import PublicRoute from "./component/PublicRoute";
 import BookingPage from "./pages/BookingPage";
 import PaymentPage from "./pages/PaymentPage";
+import PaymentSuccessPage from "./pages/PaymentSuccessPage";
+import PaymentCancelPage from "./pages/PaymentCancelPage";
 
 export const router = createBrowserRouter([
   {
@@ -45,7 +47,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "/payments",
-        element: <PaymentPage />,},
+        children: [
+          { path: "", element: <PaymentPage /> },
+          { path: "success", element: <PaymentSuccessPage /> },
+          { path: "cancel", element: <PaymentCancelPage /> },
+        ],
+      },
       {
         path: "/dashboard",
         element: <ProtectedRoute allowedRoles={["admin", "theaterOwner"]} />,
@@ -72,7 +79,10 @@ export const router = createBrowserRouter([
             children: [
               { path: ":id", element: <ShowtimesList /> },
               { path: ":theaterID/add", element: <ShowtimesForm /> },
-              { path: ":theaterID/edit/:showtimeID", element: <ShowtimesForm /> },
+              {
+                path: ":theaterID/edit/:showtimeID",
+                element: <ShowtimesForm />,
+              },
             ],
           },
           {

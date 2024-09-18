@@ -7,15 +7,17 @@ import {
   deleteBooking,
   getAllBookings,
   getBookingById,
+  paymentSession,
   updateBooking,
 } from "../../controllers/bookingsController.js";
 
 const bookingsRouter = Router();
 
-bookingsRouter.post("/addnew", verifyToken, checkAuth("theaterOwner"), asyncHandler(addNewBooking));
+bookingsRouter.post("/addnew", verifyToken, asyncHandler(addNewBooking));
 bookingsRouter.get("/all", verifyToken, asyncHandler(getAllBookings));
 bookingsRouter.get("/:id", verifyToken, asyncHandler(getBookingById));
-bookingsRouter.put("/:id", verifyToken, checkAuth("theaterOwner"), asyncHandler(updateBooking));
-bookingsRouter.delete("/:id", verifyToken, checkAuth("theaterOwner"), asyncHandler(deleteBooking));
+bookingsRouter.put("/:id", verifyToken, asyncHandler(updateBooking));
+bookingsRouter.delete("/:id", verifyToken, asyncHandler(deleteBooking));
+bookingsRouter.post("/payment/create-checkout-session", verifyToken, asyncHandler(paymentSession));
 
 export default bookingsRouter;

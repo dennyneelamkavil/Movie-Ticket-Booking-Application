@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetMovieByIdQuery } from "../api/movieSlice";
 import { useEffect, useState } from "react";
-import formatTime from "../../utils/formatTime";
+import formatTime from "../utils/formatTime";
 
 export default function MovieDetails() {
   const { movieId } = useParams();

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetShowtimeByIdQuery } from "../api/showtimeSlice";
-import formatTime from "../../utils/formatTime";
+import formatTime from "../utils/formatTime";
 import { useEffect, useState } from "react";
 import { useGetTheaterByIdQuery } from "../api/theaterSlice";
 import { toast } from "react-toastify";
@@ -22,7 +22,7 @@ export default function BookingPage() {
 
   const handleSeatClick = (seat) => {
     if (!seat.isAvailable) return; // Skip unavailable seats
-  
+
     if (selectedSeats.includes(seat._id)) {
       // Deselect seat if it's already selected
       setSelectedSeats((prev) => prev.filter((id) => id !== seat._id));
@@ -35,22 +35,19 @@ export default function BookingPage() {
       // Select seat if less than 10 seats are selected
       setSelectedSeats((prev) => [...prev, seat._id]);
     }
-  };  
+  };
 
-  const groupedSeats = theater.seatingLayout?.reduce(
-    (acc, seat) => {
-      const [row, seatNumber] = seat.seatID.split("-");
-      if (!acc[seat.seatType]) {
-        acc[seat.seatType] = {};
-      }
-      if (!acc[seat.seatType][row]) {
-        acc[seat.seatType][row] = [];
-      }
-      acc[seat.seatType][row].push(seat);
-      return acc;
-    },
-    {}
-  );
+  const groupedSeats = theater.seatingLayout?.reduce((acc, seat) => {
+    const [row, seatNumber] = seat.seatID.split("-");
+    if (!acc[seat.seatType]) {
+      acc[seat.seatType] = {};
+    }
+    if (!acc[seat.seatType][row]) {
+      acc[seat.seatType][row] = [];
+    }
+    acc[seat.seatType][row].push(seat);
+    return acc;
+  }, {});
 
   const calculateTotalAmount = () => {
     return selectedSeats.reduce((total, seatId) => {
@@ -165,7 +162,8 @@ export default function BookingPage() {
                             onClick={() => handleSeatClick(seat)}
                             disabled={!seat.isAvailable}
                           >
-                            {seat.seatID} <br /><span className="text-xs">(₹{seat.price})</span>
+                            {seat.seatID} <br />
+                            <span className="text-xs">(₹{seat.price})</span>
                           </button>
                         ))}
                       </div>
@@ -175,13 +173,15 @@ export default function BookingPage() {
               ))}
 
               <div className="card-actions justify-center">
-                {selectedSeats.length > 0 && <button
-                  className="btn btn-wide btn-success"
-                  onClick={handlePayClick}
-                  disabled={selectedSeats.length === 0}
-                >
-                  {`Pay ${totalAmount}`}
-                </button>}
+                {selectedSeats.length > 0 && (
+                  <button
+                    className="btn btn-wide btn-success"
+                    onClick={handlePayClick}
+                    disabled={selectedSeats.length === 0}
+                  >
+                    {`Pay ${totalAmount}`}
+                  </button>
+                )}
               </div>
             </div>
           </div>

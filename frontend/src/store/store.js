@@ -7,6 +7,7 @@ import { userApi } from "../api/userApiSlice";
 import { theaterApi } from "../api/theaterSlice";
 import { movieApi } from "../api/movieSlice";
 import { showtimeApi } from "../api/showtimeSlice";
+import { bookingApi } from "../api/bookingSlice";
 
 const persistConfig = {
   key: "root",
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   [theaterApi.reducerPath]: theaterApi.reducer,
   [movieApi.reducerPath]: movieApi.reducer,
   [showtimeApi.reducerPath]: showtimeApi.reducer,
+  [bookingApi.reducerPath]: bookingApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -33,7 +35,8 @@ export const store = configureStore({
       .concat(userApi.middleware)
       .concat(theaterApi.middleware)
       .concat(movieApi.middleware)
-      .concat(showtimeApi.middleware),
+      .concat(showtimeApi.middleware)
+      .concat(bookingApi.middleware),
 });
 
 export const persistor = persistStore(store);
