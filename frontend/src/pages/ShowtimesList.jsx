@@ -9,6 +9,7 @@ import {
 } from "../api/showtimeSlice";
 import { toast } from "react-toastify";
 import { useGetTheaterByIdQuery } from "../api/theaterSlice";
+import formatTime from "../../utils/formatTime";
 
 export default function ShowtimesList() {
   const { id: theaterID } = useParams();
@@ -45,14 +46,6 @@ export default function ShowtimesList() {
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-  };
-
-  const formatTime = (time) => {
-    const [hours, minutes] = time.split(":");
-    const h = parseInt(hours);
-    const ampm = h >= 12 ? "PM" : "AM";
-    const formattedHour = h % 12 || 12;
-    return `${formattedHour}:${minutes} ${ampm}`;
   };
 
   useEffect(() => {

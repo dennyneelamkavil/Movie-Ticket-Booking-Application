@@ -31,8 +31,8 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-    navigate("/login");
     dispatch(setLogout());
+    toast.success("Logged out successfully");
   };
 
   const handleCitySelect = async (city) => {

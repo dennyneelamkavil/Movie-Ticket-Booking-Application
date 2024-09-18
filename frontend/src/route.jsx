@@ -15,6 +15,8 @@ import ProtectedRoute from "./component/ProtectedRoute";
 import Unauthorized from "./pages/Unauthorized";
 import RouteNotFound from "./pages/RouteNotFound";
 import PublicRoute from "./component/PublicRoute";
+import BookingPage from "./pages/BookingPage";
+import PaymentPage from "./pages/PaymentPage";
 
 export const router = createBrowserRouter([
   {
@@ -38,8 +40,12 @@ export const router = createBrowserRouter([
         children: [
           { path: "", element: <HomePage /> },
           { path: ":movieId", element: <MovieDetails /> },
+          { path: "book/:showtimeID", element: <BookingPage /> },
         ],
       },
+      {
+        path: "/payments",
+        element: <PaymentPage />,},
       {
         path: "/dashboard",
         element: <ProtectedRoute allowedRoles={["admin", "theaterOwner"]} />,

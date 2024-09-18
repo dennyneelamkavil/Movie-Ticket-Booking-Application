@@ -54,7 +54,9 @@ export async function getAllTheaters(req, res) {
 
 export async function getTheaterById(req, res) {
   const { id } = req.params;
-  const theater = await TheaterModel.findById(id).populate("showtimes");
+  const theater = await TheaterModel.findById(id)
+    .populate("showtimes")
+    .populate("seatingLayout");
   if (!theater) {
     return res.status(404).json({ message: "Theater not found" });
   }
@@ -72,7 +74,7 @@ export async function getTheaterByOwner(req, res) {
 export async function updateTheater(req, res) {
   const { id } = req.params;
   const { name, location, seatingLayout, showtimes } = req.body;
-  const newData = { name, location, seatingLayout, showtimes };
+  const newData = { name, location };
   const theater = await TheaterModel.findOneAndUpdate({ _id: id }, newData);
   if (!theater) {
     return res.status(404).json({ message: "Theater not found" });

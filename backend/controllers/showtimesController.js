@@ -12,7 +12,9 @@ export async function addNewShowtime(req, res) {
   const theater = await TheaterModel.findById(showtime.theaterID);
   theater.showtimes.push(showtime._id);
   await theater.save();
-  res.status(201).json({ message: "Showtime created and movie updated successfully" });
+  res
+    .status(201)
+    .json({ message: "Showtime created and movie updated successfully" });
 }
 
 export async function getShowtimeByTheater(req, res) {
@@ -53,9 +55,16 @@ export async function updateShowtime(req, res) {
 
 export async function deleteShowtime(req, res) {
   const { id } = req.params;
-  const showtime = await ShowtimeModel.findByIdAndDelete(id);
+  const showtime = await ShowtimeModel.findById(id);
   if (!showtime) {
     return res.status(404).json({ message: "Showtime not found" });
   }
+  await MovieModel.findByIdAndUpdate(showtime.movieID, {
+    $pull: { showtimes: id },
+  });
+  await TheaterModel.findByIdAndUpdate(showtime.theaterID, {
+    $pull: { showtimes: id },
+  });
+  await showtime.deleteOne();
   res.status(200).json({ message: "Showtime deleted successfully" });
 }
