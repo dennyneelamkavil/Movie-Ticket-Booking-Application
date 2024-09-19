@@ -3,6 +3,7 @@ import { useGetTheaterByIdQuery } from "../api/theaterSlice";
 import { loadStripe } from "@stripe/stripe-js";
 import { useMakePaymentMutation } from "../api/bookingSlice";
 import { toast } from "react-toastify";
+import ErrorComponent from "./ErrorPage";
 
 export default function PaymentPage() {
   const location = useLocation();
@@ -15,12 +16,12 @@ export default function PaymentPage() {
     showtimeDate,
     showtimeTime,
   } = location.state || {};
-  const { data: theaterData } = useGetTheaterByIdQuery(theaterID._id);
-  const theater = theaterData?.theater || {};
-  const [makePayment] = useMakePaymentMutation();
   if (!totalAmount || !selectedSeats || !showtimeID || !theater) {
-    return <div>No booking details found. Please go back and try again.</div>;
+    return <ErrorComponent message="No booking details found. Please go back and try again." />;
   }
+  const { data: theaterData } = useGetTheaterByIdQuery(theaterID?._id); //eslint-disable-line
+  const theater = theaterData?.theater || {};
+  const [makePayment] = useMakePaymentMutation(); //eslint-disable-line
   const getSeatID = (seatId) => {
     const seat = theater.seatingLayout.find((s) => s._id === seatId);
     return seat ? seat.seatID : "Unknown seat";

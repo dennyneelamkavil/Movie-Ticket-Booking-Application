@@ -2,10 +2,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useGetMovieByIdQuery } from "../api/movieSlice";
 import { useEffect, useState } from "react";
 import formatTime from "../utils/formatTime";
+import { useSelector } from "react-redux";
+import ErrorComponent from "./ErrorPage";
+import { toast } from "react-toastify";
 
 export default function MovieDetails() {
   const { movieId } = useParams();
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
   const [isExpanded, setIsExpanded] = useState(false);
   const { data, refetch } = useGetMovieByIdQuery(movieId);
   const movie = data?.movie || {};
@@ -14,8 +18,20 @@ export default function MovieDetails() {
     refetch();
   }, [refetch]);
 
+  const handleClick = (showtimeID) => {
+    if (!user) {
+      navigate("/login");
+      toast.info("Please login to book tickets");
+      return;
+    } else {
+      navigate(`/movies/book/${showtimeID}`);
+    }
+  };
+
   if (!movie) {
-    return <div className="container mx-auto p-4">Movie not found.</div>;
+    return (
+      <ErrorComponent message="Movie not found. Please go back and try again." />
+    );
   }
 
   return (
@@ -71,6 +87,20 @@ export default function MovieDetails() {
                 <p>{movie?.rating}</p>
               </div>
             </div>
+            <div className="flex justify-between">
+              <div className="flex-1">
+                <h2 className="text-lg font-semibold">Director: </h2>
+                <p>{movie?.director}</p>
+              </div>
+              <div className="flex-1">
+                <h2 className="text-lg font-semibold">Writers: </h2>
+                <p>{movie?.writers}</p>
+              </div>
+              <div className="flex-1">
+                <h2 className="text-lg font-semibold">Stars: </h2>
+                <p>{movie?.stars}</p>
+              </div>
+            </div>
 
             <h3 className="text-xl font-semibold mt-5">Available Showtimes</h3>
             <ul className="space-y-2">
@@ -81,7 +111,7 @@ export default function MovieDetails() {
                   <span>{formatTime(showtime?.time)}</span>
                   <button
                     className="btn btn-sm"
-                    onClick={() => navigate(`/movies/book/${showtime._id}`)}
+                    onClick={() => handleClick(showtime?._id)}
                   >
                     Book
                   </button>

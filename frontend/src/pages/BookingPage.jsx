@@ -21,24 +21,20 @@ export default function BookingPage() {
   }, [refetch]);
 
   const handleSeatClick = (seat) => {
-    if (!seat.isAvailable) return; // Skip unavailable seats
-
+    if (!seat.isAvailable) return;
     if (selectedSeats.includes(seat._id)) {
-      // Deselect seat if it's already selected
       setSelectedSeats((prev) => prev.filter((id) => id !== seat._id));
     } else {
-      // Check if the number of selected seats is already 10
       if (selectedSeats.length >= 10) {
         toast.info("You can only select up to 10 seats at once.");
         return;
       }
-      // Select seat if less than 10 seats are selected
       setSelectedSeats((prev) => [...prev, seat._id]);
     }
   };
 
   const groupedSeats = theater.seatingLayout?.reduce((acc, seat) => {
-    const [row, seatNumber] = seat.seatID.split("-");
+    const [row, seatNumber] = seat.seatID.split("-"); //eslint-disable-line
     if (!acc[seat.seatType]) {
       acc[seat.seatType] = {};
     }
@@ -51,9 +47,9 @@ export default function BookingPage() {
 
   const calculateTotalAmount = () => {
     return selectedSeats.reduce((total, seatId) => {
-      const seat = theater.seatingLayout.find((s) => s._id === seatId); // Find the seat object
+      const seat = theater.seatingLayout.find((s) => s._id === seatId);
       if (seat) {
-        return total + seat.price; // Add the seat's price
+        return total + seat.price;
       }
       return total;
     }, 0);
