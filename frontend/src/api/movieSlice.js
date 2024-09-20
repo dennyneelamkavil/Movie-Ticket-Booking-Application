@@ -29,6 +29,12 @@ export const movieApi = createApi({
         method: "GET",
       }),
     }),
+    getlatestmovies: builder.query({
+      query: () => ({
+        url: "/getlatestmovies",
+        method: "GET",
+      }),
+    }),
     deleteMovie: builder.mutation({
       query: (id) => ({
         url: `/${id}`,
@@ -43,5 +49,6 @@ export const {
   useUpdateMovieMutation,
   useGetMovieByIdQuery,
   useGetAllMoviesQuery,
+  useGetlatestmoviesQuery,
   useDeleteMovieMutation,
 } = movieApi;

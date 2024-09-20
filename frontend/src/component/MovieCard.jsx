@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useGetAllMoviesQuery } from "../api/movieSlice";
+import { useEffect } from "react";
 
 export default function MovieCard() {
-  const {data: moviesData = {}} = useGetAllMoviesQuery();
+  const { data: moviesData = {}, refetch } = useGetAllMoviesQuery();
   const movies = moviesData.movies || [];
   const navigate = useNavigate();
 
@@ -10,6 +11,10 @@ export default function MovieCard() {
     navigate(`/movies/${movieId}`);
   };
 
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+  
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-wrap justify-center gap-4">
@@ -20,7 +25,11 @@ export default function MovieCard() {
             onClick={() => handleClick(movie._id)}
           >
             <figure>
-              <img src={movie.image} alt={movie.title} className="w-full h-auto max-h-96 object-contain" />
+              <img
+                src={movie.image}
+                alt={movie.title}
+                className="w-full h-auto max-h-96 object-contain"
+              />
             </figure>
             <div className="card-body">
               <h2 className="card-title">{movie.title}</h2>

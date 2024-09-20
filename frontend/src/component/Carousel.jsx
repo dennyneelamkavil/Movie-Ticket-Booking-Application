@@ -1,25 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Carousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
 
   const slides = [
     {
-      title: "Movie 1",
-      description: "An epic adventure of a lifetime.",
-      image: "path-to-image1.jpg",
+      title: "The Fall Guy",
+      description:
+        "A stuntman, fresh off an almost career-ending accident, has to track down a missing movie star, solve a conspiracy and try to win back the love of his life while still doing his day job. What could possibly go right?",
+      image: "fallguy_banner.jpeg",
+      id: "66e08d07e797f3242f92f326",
     },
     {
-      title: "Movie 2",
-      description: "The most anticipated sequel of the year.",
-      image: "path-to-image2.jpg",
+      title: "The Painter",
+      description:
+        "An ex-CIA operative is thrown back into a dangerous world when a mysterious woman from his past resurfaces. Now exposed and targeted by a relentless killer and a rogue black ops program, he must rely on skills he thought he left behind.",
+      image: "painter_banner.jpg",
+      id: "66e0980482be89bb591222ac",
     },
     {
-      title: "Movie 3",
-      description: "A heartwarming tale that will move you.",
-      image: "path-to-image3.jpg",
+      title: "No Hard Feelings",
+      description:
+        "On the brink of losing her home, Maddie finds an intriguing job listing: helicopter parents looking for someone to bring their introverted 19-year-old son out of his shell before college. She has one summer to make him a man or die trying.",
+      image: "nohardfeelings_banner.jpg",
+      id: "66ec7658e862441f706eae9b",
     },
-    // Add more slides as needed
   ];
 
   const nextSlide = () => {
@@ -30,36 +37,51 @@ export default function Carousel() {
     setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000);
+    return () => clearInterval(interval);
+  });
+
   return (
     <div className="carousel w-full relative">
       <div className="carousel-inner w-full h-96 overflow-hidden">
         {slides.map((slide, index) => (
           <div
             key={index}
-            className={`carousel-item absolute w-full h-full transition-transform duration-500 ease-in-out ${
+            className={`carousel-item absolute w-full h-full transition-transform duration-500 ease-in-out bg-no-repeat ${
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
-            style={{
-              backgroundImage: `url(${slide.image})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
           >
-            <div className="carousel-caption bg-opacity-50 bg-black text-white p-4">
-              <h2 className="text-3xl font-bold">{slide.title}</h2>
-              <p className="text-lg">{slide.description}</p>
+            <div
+              className="w-full h-full bg-no-repeat bg-cover"
+              style={{
+                backgroundImage: `url(${slide.image})`,
+                backgroundPosition: "center",
+              }}
+            ></div>
+            <div className="flex flex-col justify-center items-start p-8 bg-gray-900 text-white z-10">
+              <h2 className="text-4xl font-bold mb-4">{slide.title}</h2>
+              <p className="text-lg mb-6">{slide.description}</p>
+              <button
+                className="btn btn-ghost hover:bg-gray-500 text-white font-bold py-2 px-4 rounded w-full"
+                onClick={() => navigate(`/movies/${slide.id}`)}
+              >
+                Book Now
+              </button>
             </div>
           </div>
         ))}
       </div>
       <button
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2"
+        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 z-20"
         onClick={prevSlide}
       >
         &#10094;
       </button>
       <button
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2"
+        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 z-20"
         onClick={nextSlide}
       >
         &#10095;

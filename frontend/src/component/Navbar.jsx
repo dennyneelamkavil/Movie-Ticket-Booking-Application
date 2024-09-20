@@ -72,7 +72,17 @@ export default function Navbar() {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <Link to="/" className="btn btn-ghost text-xl">
+        <Link
+          to="/"
+          className="btn btn-ghost hover:bg-transparent text-xl h-14"
+        >
+          <img
+            src="/moviepass_logo_white.png"
+            alt="moviepass_logo"
+            width="50"
+            height="50"
+            className="rounded-full"
+          />
           Movie Pass
         </Link>
       </div>
@@ -147,7 +157,7 @@ export default function Navbar() {
             {dropdownOpen && (
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
               >
                 <li>
                   <a className="justify-between">

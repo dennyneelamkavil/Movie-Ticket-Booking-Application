@@ -6,6 +6,7 @@ import {
   addNewMovie,
   deleteMovie,
   getAllMovies,
+  getLatestMovies,
   getMovieById,
   updateMovie,
 } from "../../controllers/moviesController.js";
@@ -15,6 +16,7 @@ const moviesRouter = Router();
 
 moviesRouter.post("/addnew", verifyToken, checkAuth("theaterOwner"),upload.single("poster"), asyncHandler(addNewMovie));
 moviesRouter.get("/all", asyncHandler(getAllMovies));
+moviesRouter.get("/getlatestmovies", asyncHandler(getLatestMovies));
 moviesRouter.get("/:id", asyncHandler(getMovieById));
 moviesRouter.put("/:id", verifyToken, checkAuth("theaterOwner"),upload.single("poster"), asyncHandler(updateMovie));
 moviesRouter.delete("/:id", verifyToken, checkAuth("theaterOwner"), asyncHandler(deleteMovie));
