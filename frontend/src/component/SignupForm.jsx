@@ -31,8 +31,17 @@ export default function SignupForm() {
   const newPassword = watch("newPassword");
 
   return (
-    <div className="max-w-sm mx-auto p-6 border border-gray-300 rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-center mb-4">Sign Up</h2>
+    <div className="max-w-sm mx-auto p-6 border border-gray-300 rounded-lg shadow-md bg-white/80">
+      <div className="flex flex-col items-center">
+        <img
+          src="/moviepass_logo_white.png"
+          alt="moviepass_logo"
+          width="80"
+          height="80"
+          className="rounded-full"
+        />
+        <h2 className="text-2xl font-semibold text-center my-4">Sign Up</h2>
+      </div>
       <form onSubmit={handleSubmit(toSignup)} className="space-y-4">
         <input
           type="text"
