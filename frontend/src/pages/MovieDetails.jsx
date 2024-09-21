@@ -82,10 +82,10 @@ export default function MovieDetails() {
                 <h2 className="text-lg font-semibold">Genre: </h2>
                 <p>{movie?.genre}</p>
               </div>
-              <div className="flex-1">
+              {/* <div className="flex-1">
                 <h2 className="text-lg font-semibold">Rating: </h2>
                 <p>{movie?.rating}</p>
-              </div>
+              </div> */}
             </div>
             <div className="flex justify-between">
               <div className="flex-1">

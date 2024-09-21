@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogout } from "../auth/authSlice";
+import cities from "../assets/cities.json";
 import {
   useGetUserByIdQuery,
   useSignupMutation,
@@ -205,11 +206,17 @@ export default function TheaterOwnerForm() {
                   <label className="block text-sm font-medium text-gray-700">
                     City
                   </label>
-                  <input
-                    type="text"
+                  <select
                     {...register("city", { required: "City is required" })}
                     className="w-full border border-gray-300 rounded-md p-2"
-                  />
+                  >
+                    <option value="">Select City</option>
+                    {cities.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
                   {errors.city && (
                     <p className="text-red-500 text-sm">
                       {errors.city.message}

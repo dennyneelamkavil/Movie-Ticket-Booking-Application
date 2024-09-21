@@ -96,10 +96,10 @@ export default function BookingPage() {
               <h2 className="text-lg font-semibold">Genre: </h2>
               <p>{showtime?.movieID?.genre}</p>
             </div>
-            <div className="flex gap-4 items-center">
+            {/* <div className="flex gap-4 items-center">
               <h2 className="text-lg font-semibold">Rating: </h2>
               <p>{showtime?.movieID?.rating}</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

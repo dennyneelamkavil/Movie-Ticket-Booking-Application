@@ -34,7 +34,7 @@ export default function MovieCard() {
             <div className="card-body">
               <h2 className="card-title">{movie.title}</h2>
               <p className="line-clamp-3">{movie.description}</p>
-              <p>Rating: {movie.rating}</p>
+              {/* <p>Rating: {movie.rating}</p> */}
               <p>Duration: {movie.duration} minutes</p>
               <p>Genre: {movie.genre}</p>
             </div>

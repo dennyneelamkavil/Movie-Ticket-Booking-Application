@@ -107,9 +107,9 @@ export default function MovieList() {
                   <th className="border border-gray-300 p-3 text-left">
                     Image
                   </th>
-                  <th className="border border-gray-300 p-3 text-left">
+                  {/* <th className="border border-gray-300 p-3 text-left">
                     Rating
-                  </th>
+                  </th> */}
                   <th className="border border-gray-300 p-3 text-left">
                     Actions
                   </th>
@@ -149,9 +149,9 @@ export default function MovieList() {
                       <td className="border border-gray-300 p-3">
                         <img src={movie.image} alt={movie.title} width={50} />
                       </td>
-                      <td className="border border-gray-300 p-3">
+                      {/* <td className="border border-gray-300 p-3">
                         {movie.rating}
-                      </td>
+                      </td> */}
                       <td className="border border-gray-300 p-3">
                         <div className="flex justify-center items-center">
                           {user.role === "admin" || user.isVerified ? (
