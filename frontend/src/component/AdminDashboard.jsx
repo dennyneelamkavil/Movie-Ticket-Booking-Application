@@ -1,8 +1,8 @@
 import { FaMasksTheater, FaUsersLine } from "react-icons/fa6";
 import { MdLocalMovies, MdOutlineTheaterComedy } from "react-icons/md";
 import { LuMessagesSquare } from "react-icons/lu";
-import { SiShowtime } from "react-icons/si";
-import { GiTheater } from "react-icons/gi";
+// import { SiShowtime } from "react-icons/si";
+// import { GiTheater } from "react-icons/gi";
 import Cards from "../ui/Cards.jsx";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -29,18 +29,6 @@ export default function AdminDashboard() {
       title: "Requests for Theater Owner Verification",
       style: "bg-yellow-500",
       path: "/dashboard/theaterOwnersList/requests",
-    },
-    {
-      icon: <GiTheater />,
-      title: "Theaters",
-      style: "bg-blue-500",
-      path: "/dashboard/theaters",
-    },
-    {
-      icon: <SiShowtime />,
-      title: "ShowTimes",
-      style: "bg-green-500",
-      path: "/dashboard/showtimes",
     },
     {
       icon: <MdLocalMovies />,
