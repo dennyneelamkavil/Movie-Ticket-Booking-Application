@@ -60,17 +60,26 @@ export default function AdminDashboard() {
     navigate(path);
   };
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col items-center pt-20 px-4 lg:px-16">
+    <div
+      className="bg-gray-100 min-h-screen flex flex-col items-center pt-20 px-4 lg:px-16"
+      style={{
+        backgroundImage: 'url("/bg_admin.jpg")',
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
+        backgroundPosition: "center",
+        opacity: "0.8",
+      }}
+    >
       <div className="container mx-auto flex-grow">
         <div className="p-2">
           <div>
-            <p className="text-gray-500 font-medium text-xs">OVERVIEW</p>
-            <h1 className="m-0 text-lg leading-snug font-semibold text-inherit flex items-center">
+            <p className="text-black font-medium text-xs">OVERVIEW</p>
+            <h1 className="m-0 text-lg leading-snug font-semibold text-black flex items-center">
               Dashboard
             </h1>
           </div>
           <div className="flex justify-center items-center mt-2">
-            <h1 className="font-medium text-lg text-center">
+            <h1 className="font-medium text-lg text-center text-black">
               Hi{" "}
               <span className="text-red text-xl font-bold">
                 {user.userName},
