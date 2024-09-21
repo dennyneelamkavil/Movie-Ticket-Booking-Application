@@ -1,35 +1,48 @@
-import { FaUsers, FaUserShield, FaAd, FaInfoCircle } from "react-icons/fa";
+import { FaMasksTheater, FaUsersLine } from "react-icons/fa6";
+import { MdLocalMovies, MdOutlineTheaterComedy } from "react-icons/md";
+import { SiShowtime } from "react-icons/si";
+import { GiTheater } from "react-icons/gi";
 import Cards from "../ui/Cards.jsx";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-// import useCheckUserStatus from "../utils/useCheckUserStatus";
 
 export default function AdminDashboard() {
-  //   useCheckUserStatus();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth);
 
   const items = [
     {
-      icon: <FaUserShield />,
+      icon: <FaUsersLine />,
+      title: "View User Interface",
+      style: "bg-teal-500",
+      path: "/movies",
+    },
+    {
+      icon: <FaMasksTheater />,
       title: "Theater Owners",
       style: "bg-purple-500",
       path: "/dashboard/theaterOwnersList",
     },
     {
-      icon: <FaUsers />,
+      icon: <MdOutlineTheaterComedy />,
+      title: "Requests for Theater Owner Verification",
+      style: "bg-yellow-500",
+      path: "/dashboard/theaterOwnersList/requests",
+    },
+    {
+      icon: <GiTheater />,
       title: "Theaters",
       style: "bg-blue-500",
       path: "/dashboard/theaters",
     },
     {
-      icon: <FaAd />,
+      icon: <SiShowtime />,
       title: "ShowTimes",
       style: "bg-green-500",
       path: "/dashboard/showtimes",
     },
     {
-      icon: <FaInfoCircle />,
+      icon: <MdLocalMovies />,
       title: "Movies",
       style: "bg-teal-500",
       path: "/dashboard/movies",

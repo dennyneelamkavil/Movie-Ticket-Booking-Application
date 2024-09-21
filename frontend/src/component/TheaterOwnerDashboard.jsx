@@ -1,23 +1,29 @@
-import { FaUsers, FaInfoCircle } from "react-icons/fa";
+import { GiTheater } from "react-icons/gi";
+import { MdLocalMovies } from "react-icons/md";
+import { FaUsersLine } from "react-icons/fa6";
 import Cards from "../ui/Cards.jsx";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-// import useCheckUserStatus from "../utils/useCheckUserStatus";
 
 export default function TheaterOwnerDashboard() {
-  //   useCheckUserStatus();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth);
 
   const items = [
     {
-      icon: <FaUsers />,
+      icon: <FaUsersLine />,
+      title: "View User Interface",
+      style: "bg-teal-500",
+      path: "/movies",
+    },
+    {
+      icon: <GiTheater />,
       title: "Theaters",
       style: "bg-blue-500",
       path: "/dashboard/theaters",
     },
     {
-      icon: <FaInfoCircle />,
+      icon: <MdLocalMovies />,
       title: "Movies",
       style: "bg-teal-500",
       path: "/dashboard/movies",

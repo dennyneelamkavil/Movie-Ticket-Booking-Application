@@ -48,6 +48,22 @@ export const userApi = createApi({
         method: "PUT",
       }),
     }),
+    requestVerification: builder.mutation({
+      query: ({ request }) => ({
+        url: `/requestverification`,
+        method: "POST",
+        body: request,
+      }),
+    }),
+    getAllRequests: builder.query({
+      query: () => "/requests",
+    }),
+    deleteRequest: builder.mutation({
+      query: (id) => ({
+        url: `/requests/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -59,4 +75,7 @@ export const {
   useDeleteUserMutation,
   useVerifyUserMutation,
   useGetUserByIdQuery,
+  useRequestVerificationMutation,
+  useGetAllRequestsQuery,
+  useDeleteRequestMutation,
 } = userApi;

@@ -44,8 +44,6 @@ export default function TheaterOwnerForm() {
           ? new Date(theaterOwner.lastLoggedIn).toLocaleString()
           : ""
       );
-      // Clear password field on edit
-      setValue("password", "");
     }
   }, [data, isEditMode, setValue]);
 
@@ -60,9 +58,11 @@ export default function TheaterOwnerForm() {
         email,
         isVerified,
         city,
-        password,
         role,
       };
+      if (!isEditMode) {
+        userPayload.password = password;
+      }
 
       let res;
       if (isEditMode) {
@@ -221,7 +221,7 @@ export default function TheaterOwnerForm() {
               <div className="flex justify-end space-x-2 pt-4">
                 <button
                   type="button"
-                  onClick={() => navigate("/dashboard/theaterOwnersList")}
+                  onClick={() => navigate(-1)}
                   className="bg-red-500 text-white hover:opacity-90 px-6 py-2 rounded-lg"
                 >
                   Cancel

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { TiTick } from "react-icons/ti";
 import { MdBlock } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -15,7 +16,13 @@ export default function TheaterOwnersList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
-  const { data = {}, isLoading, isError, error,refetch } = useGetTheaterOwnersQuery();
+  const {
+    data = {},
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useGetTheaterOwnersQuery();
   const theaterOwners = data.theaterOwners || [];
 
   const [deleteUser] = useDeleteUserMutation();
@@ -57,7 +64,7 @@ export default function TheaterOwnersList() {
 
   useEffect(() => {
     refetch();
-  },[refetch])
+  }, [refetch]);
 
   return (
     <div className="bg-gray-100 min-h-screen mt-[65px] py-8">
@@ -116,7 +123,7 @@ export default function TheaterOwnersList() {
                     Last Logged In
                   </th>
                   <th className="border border-gray-300 p-3 text-left">
-                    Verification Status
+                    Verification Status for adding movies
                   </th>
                   <th className="border border-gray-300 p-3 text-left">
                     Actions
@@ -172,9 +179,13 @@ export default function TheaterOwnersList() {
                             </button>
                             <button
                               onClick={() => handleVerify(user._id)}
-                              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded flex items-center"
+                              className={`${
+                                user.isVerified
+                                  ? "bg-orange-500 hover:bg-orange-600"
+                                  : "bg-green-500 hover:bg-green-600"
+                              } text-white font-bold py-2 px-4 rounded flex items-center`}
                             >
-                              <MdBlock />
+                              {user.isVerified ? <MdBlock /> : <TiTick />}
                             </button>
                             <button
                               onClick={() => handleDelete(user._id)}
