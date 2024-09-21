@@ -13,7 +13,7 @@ export default function TheaterOwnerDashboard() {
     {
       icon: <FaUsersLine />,
       title: "View User Interface",
-      style: "bg-teal-500",
+      style: "bg-amber-500",
       path: "/movies",
     },
     {

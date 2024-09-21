@@ -64,6 +64,22 @@ export const userApi = createApi({
         method: "DELETE",
       }),
     }),
+    contactUsRequest: builder.mutation({
+      query: (data) => ({
+        url: "/contactus",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    getContactRequest: builder.query({
+      query: () => "/contactus",
+    }),
+    deleteContactRequest: builder.mutation({
+      query: (id) => ({
+        url: `/contactus/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -78,4 +94,7 @@ export const {
   useRequestVerificationMutation,
   useGetAllRequestsQuery,
   useDeleteRequestMutation,
+  useContactUsRequestMutation,
+  useGetContactRequestQuery,
+  useDeleteContactRequestMutation,
 } = userApi;

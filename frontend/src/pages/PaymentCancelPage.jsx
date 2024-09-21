@@ -17,7 +17,7 @@ export default function PaymentCancelPage() {
             Back to Home
           </Link>
           <Link
-            to="/contact"
+            to="/contact-us"
             className="ml-4 btn btn-success px-6 py-3 rounded-lg hover:bg-green-600"
           >
             Contact Support

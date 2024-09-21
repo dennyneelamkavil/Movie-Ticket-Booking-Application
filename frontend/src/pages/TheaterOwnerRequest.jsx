@@ -77,6 +77,11 @@ export default function TheaterOwnerRequest() {
             </button>
           </div>
         </form>
+        <p className="mt-4 text-gray-600 text-sm text-center">
+          Our team will reach out to you for verification within the next 24
+          hours. Once you’re verified, you’ll be able to access your dashboard
+          with the same login credentials. Thanks for your patience!
+        </p>
       </div>
     </div>
   );

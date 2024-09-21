@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import UserModel from "../models/userModel.js";
 import { generateToken } from "../utils/jwtToken.js";
 import RequestModel from "../models/requestModel.js";
+import ContactModel from "../models/contactModel.js";
 
 export async function signUp(req, res) {
   const userDetails = req.body;
@@ -113,4 +114,30 @@ export async function deleteRequest(req, res) {
     return res.status(404).json({ message: "Request not found" });
   }
   res.status(200).json({ message: "Request deleted successfully" });
+}
+
+export async function contactUs(req, res) {
+  const { name, email, message } = req.body;
+  const contactUsDetails = {
+    name,
+    email,
+    message,
+  };
+  const contactUs = new ContactModel(contactUsDetails);
+  await contactUs.save();
+  res.status(201).json({ message: "Message sent successfully" });
+}
+
+export async function getContactUs(req, res) {
+  const contactUsRequests = await ContactModel.find();
+  res.status(200).json({ contactUsRequests: contactUsRequests });
+}
+
+export async function deleteContactUs(req, res) {
+  const { id } = req.params;
+  const contactUs = await ContactModel.findByIdAndDelete(id);
+  if (!contactUs) {
+    return res.status(404).json({ message: "Contact Us request not found" });
+  }
+  res.status(200).json({ message: "Contact Us request deleted successfully" });
 }

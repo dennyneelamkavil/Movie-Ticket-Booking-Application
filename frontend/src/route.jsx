@@ -25,6 +25,7 @@ import Terms from "./pages/Terms";
 import TheaterOwnerRequest from "./pages/TheaterOwnerRequest";
 import RequestsList from "./pages/RequestsList";
 import UserDashboard from "./component/UserDashboard";
+import ContactMessages from "./pages/ContactMessages";
 
 export const router = createBrowserRouter([
   {
@@ -91,6 +92,11 @@ export const router = createBrowserRouter([
               { path: "edit/:id", element: <TheaterOwnerForm /> },
               { path: "requests", element: <RequestsList /> },
             ],
+          },
+          {
+            path: "contactmessages",
+            element: <ProtectedRoute allowedRoles={["admin"]} />,
+            children: [{ path: "", element: <ContactMessages /> }],
           },
           {
             path: "theaters",

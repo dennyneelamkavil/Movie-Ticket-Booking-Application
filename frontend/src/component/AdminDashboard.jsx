@@ -1,5 +1,6 @@
 import { FaMasksTheater, FaUsersLine } from "react-icons/fa6";
 import { MdLocalMovies, MdOutlineTheaterComedy } from "react-icons/md";
+import { LuMessagesSquare } from "react-icons/lu";
 import { SiShowtime } from "react-icons/si";
 import { GiTheater } from "react-icons/gi";
 import Cards from "../ui/Cards.jsx";
@@ -14,7 +15,7 @@ export default function AdminDashboard() {
     {
       icon: <FaUsersLine />,
       title: "View User Interface",
-      style: "bg-teal-500",
+      style: "bg-amber-500",
       path: "/movies",
     },
     {
@@ -46,6 +47,12 @@ export default function AdminDashboard() {
       title: "Movies",
       style: "bg-teal-500",
       path: "/dashboard/movies",
+    },
+    {
+      icon: <LuMessagesSquare />,
+      title: "Messages",
+      style: "bg-neutral-500",
+      path: "/dashboard/contactmessages",
     },
   ];
 
