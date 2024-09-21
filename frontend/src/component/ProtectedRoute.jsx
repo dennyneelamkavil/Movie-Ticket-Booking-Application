@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const ProtectedRoute = ({ allowedRoles }) => {
+export default function ProtectedRoute({ allowedRoles }) {
   const { userRole } = useSelector((state) => state.auth);
 
   if (userRole === "admin") {
@@ -13,6 +13,4 @@ const ProtectedRoute = ({ allowedRoles }) => {
   } else {
     return <Outlet />;
   }
-};
-
-export default ProtectedRoute;
+}

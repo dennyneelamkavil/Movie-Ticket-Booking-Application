@@ -12,10 +12,46 @@ export const bookingApi = createApi({
         method: "POST",
         body: data,
       }),
-    })    
+    }),
+    checkStatus: builder.mutation({
+      query: (id) => ({
+        url: `/payment/status/${id}`,
+        method: "GET",
+      }),
+    }),
+    getAllBookings: builder.query({
+      query: () => ({
+        url: "/all",
+        method: "GET",
+      }),
+    }),
+    getBookingById: builder.query({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "GET",
+      }),
+    }),
+    getBookingsByUser: builder.query({
+      query: (id) => ({
+        url: `/user/${id}`,
+        method: "GET",
+      }),
+    }),
+    updateBooking: builder.mutation({
+      query: ({ id, updatedBooking }) => ({
+        url: `/${id}`,
+        method: "PUT",
+        body: updatedBooking,
+      }),
+    }),
   }),
 });
 
 export const {
-  useMakePaymentMutation
+  useMakePaymentMutation,
+  useCheckStatusMutation,
+  useGetAllBookingsQuery,
+  useGetBookingByIdQuery,
+  useGetBookingsByUserQuery,
+  useUpdateBookingMutation,
 } = bookingApi;

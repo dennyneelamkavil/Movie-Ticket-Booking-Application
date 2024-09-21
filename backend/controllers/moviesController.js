@@ -2,7 +2,7 @@ import MovieModel from "../models/movieModel.js";
 
 export async function addNewMovie(req, res) {
   const movieDetails = req.body;
-  movieDetails.createdBy = req.user._id;
+  movieDetails.createdBy = req.user.id;
   if (req.file) {
     movieDetails.image = req.file.path;
     movieDetails.imagePublicId = req.file.filename;

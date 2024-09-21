@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Terms = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
@@ -31,9 +33,9 @@ const Terms = () => {
         <p className="text-gray-600">
           If you have any questions regarding our terms or privacy policy, feel
           free to{" "}
-          <a href="/contact-us" className="text-blue-500 hover:underline">
+          <Link to="/contact-us" className="text-blue-500 hover:underline">
             contact us
-          </a>
+          </Link>
           .
         </p>
       </div>

@@ -16,12 +16,14 @@ export default function PaymentPage() {
     showtimeDate,
     showtimeTime,
   } = location.state || {};
-  if (!totalAmount || !selectedSeats || !showtimeID || !theater) {
-    return <ErrorComponent message="No booking details found. Please go back and try again." />;
+  if (!totalAmount || !selectedSeats || !showtimeID || !theaterID) {
+    return (
+      <ErrorComponent message="No booking details found. Please go back and try again." />
+    );
   }
   const { data: theaterData } = useGetTheaterByIdQuery(theaterID?._id); //eslint-disable-line
   const theater = theaterData?.theater || {};
-  const [makePayment] = useMakePaymentMutation(); //eslint-disable-line
+  const [makePayment, { isLoading }] = useMakePaymentMutation(); //eslint-disable-line
   const getSeatID = (seatId) => {
     const seat = theater.seatingLayout.find((s) => s._id === seatId);
     return seat ? seat.seatID : "Unknown seat";
@@ -96,8 +98,12 @@ export default function PaymentPage() {
           </ul>
         </div>
       </div>
-      <button className="btn btn-primary mt-5" onClick={completePayment}>
-        Make Payment
+      <button
+        className="btn btn-primary mt-5"
+        onClick={completePayment}
+        disabled={isLoading}
+      >
+        {isLoading ? "Initiating payment..." : "Pay Now"}
       </button>
     </div>
   );

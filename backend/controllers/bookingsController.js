@@ -4,6 +4,7 @@ import MovieModel from "../models/movieModel.js";
 import ShowtimeModel from "../models/showtimeModel.js";
 import TheaterModel from "../models/theaterModel.js";
 import SeatModel from "../models/seatModel.js";
+import UserModel from "../models/userModel.js";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const clientURL = process.env.FRONTEND_URL;
 
@@ -17,6 +18,21 @@ export async function addNewBooking(req, res) {
 
 export async function getAllBookings(req, res) {
   const bookings = await BookingModel.find();
+  res.status(200).json({ bookings: bookings });
+}
+
+export async function getBookingsByUserID(req, res) {
+  const { id } = req.params;
+  const bookings = await BookingModel.find({ userID: id })
+    .sort({
+      bookingDate: -1,
+      _id: 1,
+    })
+    .populate({
+      path: "showtimeID",
+      populate: [{ path: "theaterID" }, { path: "movieID" }],
+    })
+    .populate("seatID");
   res.status(200).json({ bookings: bookings });
 }
 
@@ -54,6 +70,7 @@ export async function paymentSession(req, res) {
   if (!showtimeID || !movieID || !theaterID || !totalAmount || !selectedSeats) {
     return res.status(400).json({ message: "Missing required fields" });
   }
+  const userID = req.user.id;
 
   const showtime = await ShowtimeModel.findById(showtimeID);
   const movie = await MovieModel.findById(movieID);
@@ -91,7 +108,43 @@ export async function paymentSession(req, res) {
     cancel_url: `${clientURL}/payments/cancel`,
   });
 
+  const booking = await BookingModel.create({
+    userID,
+    showtimeID,
+    totalAmount,
+    seatID: selectedSeats,
+    sessionID: session.id,
+  });
+  const user = await UserModel.findById(userID);
+  user.bookingHistory.push(booking._id);
+  await user.save();
+
   res
     .status(200)
     .json({ message: "Payment session created", sessionId: session.id });
+}
+
+export async function checkStatus(req, res) {
+  const sessionID = req.params.id;
+  const session = await stripe.checkout.sessions.retrieve(sessionID);
+  if (!session) {
+    return res.status(404).json({ message: "Session not found" });
+  }
+  const booking = await BookingModel.findOne({ sessionID });
+  if (!booking) {
+    return res.status(404).json({ message: "Booking not found" });
+  }
+  if (session.payment_status === "paid") {
+    booking.status = "confirmed";
+    await booking.save();
+  }
+  if (session.payment_status === "unpaid") {
+    booking.status = "cancelled";
+    await booking.save();
+  }
+  res.status(200).json({
+    session: session,
+    status: session.payment_status,
+    booking: booking,
+  });
 }

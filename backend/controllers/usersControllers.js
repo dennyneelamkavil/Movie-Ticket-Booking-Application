@@ -34,7 +34,7 @@ export async function getAllUsers(req, res) {
 
 export async function getUserById(req, res) {
   const { id } = req.params;
-  const user = await UserModel.findById(id);
+  const user = await UserModel.findById(id).populate("bookingHistory");
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
