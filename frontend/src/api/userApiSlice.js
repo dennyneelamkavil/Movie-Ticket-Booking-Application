@@ -80,6 +80,13 @@ export const userApi = createApi({
         method: "DELETE",
       }),
     }),
+    changePasswordRequest: builder.mutation({
+      query: (data) => ({
+        url: "/changepassword",
+        method: "POST",
+        body: data,
+      }),
+    })
   }),
 });
 
@@ -97,4 +104,5 @@ export const {
   useContactUsRequestMutation,
   useGetContactRequestQuery,
   useDeleteContactRequestMutation,
+  useChangePasswordRequestMutation
 } = userApi;

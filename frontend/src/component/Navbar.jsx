@@ -166,7 +166,7 @@ export default function Navbar() {
                   </a>
                 </li>
                 <li>
-                  <a>Settings</a>
+                  <Link to="/change-password">Change Password</Link>
                 </li>
                 <li onClick={handleLogout}>
                   <a>Logout</a>

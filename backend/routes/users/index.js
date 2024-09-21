@@ -2,7 +2,7 @@ import { Router } from "express";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { checkAuth } from "../../utils/authMiddleware.js";
 import { verifyToken } from "../../utils/jwtToken.js";
-import { contactUs, deleteContactUs, deleteRequest, deleteUser, getAllRequests, getAllUsers, getContactUs, getTheaterOwners, getUserById, logIn, requestVerification, signUp, updateUser, verifyUser } from "../../controllers/usersControllers.js";
+import { changePasswordRequest, contactUs, deleteContactUs, deleteRequest, deleteUser, getAllRequests, getAllUsers, getContactUs, getTheaterOwners, getUserById, logIn, requestVerification, signUp, updateUser, verifyUser } from "../../controllers/usersControllers.js";
 
 const usersRouter = Router();
 
@@ -20,5 +20,6 @@ usersRouter.delete("/contactus/:id", verifyToken, asyncHandler(deleteContactUs))
 usersRouter.delete("/:id", verifyToken, asyncHandler(deleteUser));
 usersRouter.post("/requestverification", verifyToken, asyncHandler(requestVerification));
 usersRouter.post("/contactus", asyncHandler(contactUs));
+usersRouter.post("/changepassword",verifyToken, asyncHandler(changePasswordRequest));
 
 export default usersRouter;

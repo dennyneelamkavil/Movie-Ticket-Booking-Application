@@ -26,6 +26,7 @@ import TheaterOwnerRequest from "./pages/TheaterOwnerRequest";
 import RequestsList from "./pages/RequestsList";
 import UserDashboard from "./component/UserDashboard";
 import ContactMessages from "./pages/ContactMessages";
+import ChangePassword from "./pages/ChangePassword";
 
 export const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ export const router = createBrowserRouter([
       {
         path: "/partner",
         element: <TheaterOwnerRequest />,
+      },
+      {
+        path: "/change-password",
+        element: <ChangePassword />,
       },
       {
         path: "/dashboard",
