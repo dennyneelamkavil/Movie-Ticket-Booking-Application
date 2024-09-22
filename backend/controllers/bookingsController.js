@@ -137,6 +137,10 @@ export async function checkStatus(req, res) {
   if (session.payment_status === "paid") {
     booking.status = "confirmed";
     await booking.save();
+    await SeatModel.updateMany(
+      { _id: { $in: booking.seatID } },
+      { $set: { isAvailable: false } }
+    );
   }
   if (session.payment_status === "unpaid") {
     booking.status = "cancelled";

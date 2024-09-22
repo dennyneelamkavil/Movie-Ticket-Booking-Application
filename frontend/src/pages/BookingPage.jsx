@@ -150,10 +150,10 @@ export default function BookingPage() {
                             key={seat._id}
                             className={`p-2 border rounded ${
                               selectedSeats.includes(seat._id)
-                                ? "bg-green-500"
+                                ? "bg-green-500 text-white"
                                 : seat.isAvailable
-                                ? "bg-gray-300"
-                                : "bg-red-500"
+                                ? "bg-transparent border-green-500 text-green-500"
+                                : "bg-red-300 text-black"
                             }`}
                             onClick={() => handleSeatClick(seat)}
                             disabled={!seat.isAvailable}
@@ -167,6 +167,31 @@ export default function BookingPage() {
                   ))}
                 </div>
               ))}
+
+              {/* Screen indicator */}
+              <div className="text-center mt-6">
+                <div className="border-b-2 border-gray-500 w-1/3 mx-auto">
+                  <h5 className="text-sm font-semibold">
+                    All eyes this way please!
+                  </h5>
+                </div>
+              </div>
+
+              {/* Seat legend */}
+              <div className="flex justify-start gap-4 mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-green-500 border"></div>
+                  <span>Selected</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-transparent border-green-500 border"></div>
+                  <span>Available</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-red-300 border"></div>
+                  <span>Sold</span>
+                </div>
+              </div>
 
               <div className="card-actions justify-center">
                 {selectedSeats.length > 0 && (
