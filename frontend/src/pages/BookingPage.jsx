@@ -76,8 +76,8 @@ export default function BookingPage() {
   }
 
   return (
-    <div className="container mx-auto p-4 flex flex-col lg:flex-row gap-8">
-      <div className="card bg-base-100 shadow-xl w-1/2">
+    <div className="container mx-auto p-4 flex flex-col lg:flex-row justify-center gap-8">
+      <div className="card bg-base-100 shadow-xl w-full lg:w-1/2">
         <figure>
           <img
             src={showtime?.movieID?.image}
@@ -109,7 +109,7 @@ export default function BookingPage() {
             <h3 className="text-xl font-semibold text-center mx-5">
               Selected Showtime and Theater
             </h3>
-            <ul className="flex text-center justify-between">
+            <ul className="flex text-center justify-between flex-col md:flex-row">
               <li className="flex items-center">
                 <h2 className="text-lg font-semibold">Date: </h2>
                 <p>{new Date(showtime?.date).toDateString()}</p>
@@ -144,7 +144,7 @@ export default function BookingPage() {
                   {Object.keys(groupedSeats[seatType]).map((rowName) => (
                     <div key={rowName}>
                       <h5 className="font-medium">{`Row ${rowName}`}</h5>
-                      <div className="grid grid-cols-10 gap-2">
+                      <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-10 gap-2">
                         {groupedSeats[seatType][rowName].map((seat) => (
                           <button
                             key={seat._id}

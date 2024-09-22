@@ -35,8 +35,8 @@ export default function MovieDetails() {
   }
 
   return (
-    <div className="container mx-auto p-4 flex flex-col lg:flex-row gap-8">
-      <div className="card bg-base-100 shadow-xl w-1/2">
+    <div className="container mx-auto p-4 flex flex-col lg:flex-row justify-center items-center gap-8">
+      <div className="card bg-base-100 shadow-xl w-full lg:w-1/2">
         <figure>
           <img
             src={movie?.image}
@@ -46,9 +46,11 @@ export default function MovieDetails() {
         </figure>
         <div className="card-body">
           <h2 className="card-title">{movie?.title}</h2>
-          <p className={`${isExpanded ? "" : "line-clamp-6"}`}>
-            {movie?.description}
-          </p>
+          <div className="flex justify-between">
+            <p className={`${isExpanded ? "" : "line-clamp-5"}`}>
+              {movie?.description}
+            </p>
+          </div>
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="text-blue-500 mt-2 underline text-sm"
@@ -73,30 +75,30 @@ export default function MovieDetails() {
         )}
         <div className="card bg-base-100 w-full shadow-xl">
           <div className="card-body">
-            <div className="flex justify-between">
-              <div className="flex-1">
+            <div className="flex flex-col lg:flex-row justify-between items-center text-center">
+              <div className="flex-1 flex items-center">
                 <h2 className="text-lg font-semibold">Duration: </h2>
                 <p>{movie?.duration} minutes</p>
               </div>
-              <div className="flex-1">
+              <div className="flex-1 flex items-center">
                 <h2 className="text-lg font-semibold">Genre: </h2>
                 <p>{movie?.genre}</p>
               </div>
-              {/* <div className="flex-1">
+              {/* <div className="flex-1 flex items-center">
                 <h2 className="text-lg font-semibold">Rating: </h2>
                 <p>{movie?.rating}</p>
               </div> */}
             </div>
-            <div className="flex justify-between">
-              <div className="flex-1">
+            <div className="flex flex-col lg:flex-row justify-between items-center text-center">
+              <div className="flex-1 flex items-center">
                 <h2 className="text-lg font-semibold">Director: </h2>
                 <p>{movie?.director}</p>
               </div>
-              <div className="flex-1">
+              <div className="flex-1 flex items-center">
                 <h2 className="text-lg font-semibold">Writers: </h2>
                 <p>{movie?.writers}</p>
               </div>
-              <div className="flex-1">
+              <div className="flex-1 flex items-center">
                 <h2 className="text-lg font-semibold">Stars: </h2>
                 <p>{movie?.stars}</p>
               </div>

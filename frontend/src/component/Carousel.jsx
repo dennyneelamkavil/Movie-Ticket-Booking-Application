@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Carousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
   const navigate = useNavigate();
 
   const slides = [
@@ -38,6 +39,15 @@ export default function Carousel() {
   };
 
   useEffect(() => {
+    const checkScreenSize = () => {
+      setIsLargeScreen(window.matchMedia("(min-width: 1024px)").matches);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
     }, 5000);
@@ -47,39 +57,79 @@ export default function Carousel() {
   return (
     <div className="carousel w-full relative">
       <div className="carousel-inner w-full h-96 overflow-hidden">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={`carousel-item absolute w-full h-full transition-transform duration-500 ease-in-out bg-no-repeat ${
-              index === currentSlide ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <div
-              className="w-full h-full bg-no-repeat bg-cover"
-              style={{
-                backgroundImage: `url(${slide.image})`,
-                backgroundPosition: "center",
-              }}
-            ></div>
-            <div className="flex flex-col justify-center items-start p-8 bg-gray-900 text-white z-10">
-              <h2 className="text-4xl font-bold mb-4">{slide.title}</h2>
-              <p className="text-lg mb-6">{slide.description}</p>
-              <button
-                className="btn btn-ghost hover:bg-gray-500 text-white font-bold py-2 px-4 rounded w-full"
-                onClick={() => navigate(`/movies/${slide.id}`)}
+        {isLargeScreen
+          ? slides.map((slide, index) => (
+              <div
+                key={index}
+                className={`carousel-item absolute w-full h-full transition-transform duration-500 ease-in-out bg-no-repeat ${
+                  index === currentSlide ? "opacity-100" : "opacity-0"
+                }`}
               >
-                Book Now
-              </button>
-            </div>
-          </div>
-        ))}
+                <div
+                  className="w-full h-full bg-no-repeat bg-cover"
+                  style={{
+                    backgroundImage: `url(${slide.image})`,
+                    backgroundPosition: "center",
+                  }}
+                ></div>
+                <div className="flex flex-col justify-center items-start p-8 bg-gray-900 text-white z-10 w-1/2">
+                  <h2 className="text-4xl font-bold mb-4">{slide.title}</h2>
+                  <p className="text-lg mb-6">{slide.description}</p>
+                  <button
+                    className="btn btn-ghost hover:bg-gray-500 text-white font-bold py-2 px-4 rounded w-full"
+                    onClick={() => navigate(`/movies/${slide.id}`)}
+                  >
+                    Book Now
+                  </button>
+                </div>
+              </div>
+            ))
+          : slides.map((slide, index) => (
+              <div
+                key={index}
+                className={`carousel-item absolute w-full h-full transition-opacity duration-500 ease-in-out bg-no-repeat ${
+                  index === currentSlide ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                {/* Image with content overlay */}
+                <div
+                  className="w-full h-full bg-no-repeat bg-cover"
+                  style={{
+                    backgroundImage: `url(${slide.image})`,
+                    backgroundPosition: "center",
+                  }}
+                ></div>
+
+                {/* Content: Adjust layout based on screen size */}
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end items-start px-8 text-white">
+                  <div className="w-full max-w-lg">
+                    <h2 className="text-2xl md:text-4xl font-bold mb-4">
+                      {slide.title}
+                    </h2>
+                    <p className="text-sm md:text-lg mb-6">
+                      {slide.description}
+                    </p>
+                    <button
+                      className="btn btn-ghost hover:bg-gray-500 text-white font-bold py-2 px-4 rounded w-full md:w-auto"
+                      onClick={() => navigate(`/movies/${slide.id}`)}
+                    >
+                      Book Now
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
       </div>
+
+      {/* Previous button */}
       <button
         className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 z-20"
         onClick={prevSlide}
       >
         &#10094;
       </button>
+
+      {/* Next button */}
       <button
         className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 z-20"
         onClick={nextSlide}
