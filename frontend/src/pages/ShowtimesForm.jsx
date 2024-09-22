@@ -44,19 +44,17 @@ export default function ShowtimesForm() {
         showtime.date ? new Date(showtime.date).toISOString().split("T")[0] : ""
       );
       setValue("time", showtime.time || "");
-      setValue("availableSeats", showtime.availableSeats || "");
     }
   }, [data, isEditMode, setValue]);
 
   const onSubmit = async (formData) => {
     try {
-      const { movieID, date, time, availableSeats } = formData;
+      const { movieID, date, time } = formData;
       const showtimePayload = {
         movieID,
         theaterID,
         date,
         time,
-        availableSeats,
       };
 
       let res;
@@ -147,27 +145,6 @@ export default function ShowtimesForm() {
                   {errors.time && (
                     <p className="text-red-500 text-sm">
                       {errors.time.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex justify-between space-x-4 mb-4">
-                <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Available Seats
-                  </label>
-                  <input
-                    type="number"
-                    {...register("availableSeats", {
-                      required: "Available seats are required",
-                      min: { value: 0, message: "Seats cannot be negative" },
-                    })}
-                    className="w-full border border-gray-300 rounded-md p-2"
-                  />
-                  {errors.availableSeats && (
-                    <p className="text-red-500 text-sm">
-                      {errors.availableSeats.message}
                     </p>
                   )}
                 </div>

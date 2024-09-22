@@ -48,6 +48,10 @@ export default function ShowtimesList() {
     setSearchQuery(e.target.value);
   };
 
+  const filteredShowtimes = showtimes.filter((showtime) =>
+    showtime.movieID.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   useEffect(() => {
     refetch();
   }, [refetch]);
@@ -82,7 +86,7 @@ export default function ShowtimesList() {
                 type="text"
                 id="showtime-search"
                 className="border border-gray-300 rounded-lg p-2 flex-grow sm:flex-grow-0 sm:w-48 mb-4 sm:mb-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Search by name or email"
+                placeholder="Search for a movie"
                 value={searchQuery}
                 onChange={handleSearchChange}
               />
@@ -106,9 +110,6 @@ export default function ShowtimesList() {
                     Showtime Time
                   </th>
                   <th className="border border-gray-300 p-3 text-left">
-                    Available Seats
-                  </th>
-                  <th className="border border-gray-300 p-3 text-left">
                     Actions
                   </th>
                 </tr>
@@ -127,7 +128,7 @@ export default function ShowtimesList() {
                     </td>
                   </tr>
                 ) : (
-                  showtimes.map((showtime, index) => (
+                  filteredShowtimes.map((showtime, index) => (
                     <tr key={showtime._id} className="border-b border-gray-300">
                       <td className="border border-gray-300 p-3">
                         {index + 1}
@@ -140,9 +141,6 @@ export default function ShowtimesList() {
                       </td>
                       <td className="border border-gray-300 p-3">
                         {formatTime(showtime.time)}
-                      </td>
-                      <td className="border border-gray-300 p-3">
-                        {showtime.availableSeats}
                       </td>
                       <td className="border border-gray-300 p-3">
                         <div className="flex justify-center items-center">

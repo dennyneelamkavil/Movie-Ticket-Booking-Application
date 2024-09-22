@@ -44,6 +44,10 @@ export default function MovieList() {
     setSearchQuery(e.target.value);
   };
 
+  const filteredMovies = movies.filter((movie) =>
+    movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   useEffect(() => {
     refetch();
   }, [refetch]);
@@ -78,7 +82,7 @@ export default function MovieList() {
                 type="text"
                 id="movie-search"
                 className="border border-gray-300 rounded-lg p-2 flex-grow sm:flex-grow-0 sm:w-48 mb-4 sm:mb-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Search by name or email"
+                placeholder="Search by title"
                 value={searchQuery}
                 onChange={handleSearchChange}
               />
@@ -129,7 +133,7 @@ export default function MovieList() {
                     </td>
                   </tr>
                 ) : (
-                  movies.map((movie, index) => (
+                  filteredMovies.map((movie, index) => (
                     <tr key={movie._id} className="border-b border-gray-300">
                       <td className="border border-gray-300 p-3">
                         {index + 1}

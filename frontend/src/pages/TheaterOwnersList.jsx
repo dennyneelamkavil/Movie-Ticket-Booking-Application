@@ -62,6 +62,12 @@ export default function TheaterOwnersList() {
     setSearchQuery(e.target.value);
   };
 
+  const filteredTheaterOwners = theaterOwners.filter(
+    (theaterOwner) =>
+      theaterOwner.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      theaterOwner.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   useEffect(() => {
     refetch();
   }, [refetch]);
@@ -144,7 +150,7 @@ export default function TheaterOwnersList() {
                     </td>
                   </tr>
                 ) : (
-                  theaterOwners.map((user, index) => (
+                  filteredTheaterOwners.map((user, index) => (
                     <tr key={user._id} className="border-b border-gray-300">
                       <td className="border border-gray-300 p-3">
                         {index + 1}

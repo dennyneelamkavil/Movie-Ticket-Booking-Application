@@ -45,6 +45,10 @@ export default function TheaterList() {
     setSearchQuery(e.target.value);
   };
 
+  const filteredTheaters = theaters.filter((theater) =>
+    theater.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   useEffect(() => {
     refetch();
   }, [refetch]);
@@ -77,7 +81,7 @@ export default function TheaterList() {
                 type="text"
                 id="theater-search"
                 className="border border-gray-300 rounded-lg p-2 flex-grow sm:flex-grow-0 sm:w-48 mb-4 sm:mb-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Search by name or email"
+                placeholder="Search by name"
                 value={searchQuery}
                 onChange={handleSearchChange}
               />
@@ -117,7 +121,7 @@ export default function TheaterList() {
                     </td>
                   </tr>
                 ) : (
-                  theaters.map((theater, index) => (
+                  filteredTheaters.map((theater, index) => (
                     <tr key={theater._id} className="border-b border-gray-300">
                       <td className="border border-gray-300 p-3">
                         {index + 1}

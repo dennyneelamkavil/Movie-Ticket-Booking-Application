@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import {
@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 
 export default function RequestsList() {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
   const {
     data = {},
     isLoading,
@@ -48,10 +47,6 @@ export default function RequestsList() {
     }
   };
 
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
   useEffect(() => {
     refetch();
   }, [refetch]);
@@ -64,30 +59,6 @@ export default function RequestsList() {
           <h2 className="text-xl font-bold text-gray-800">
             Requests for Theater Owner Verification
           </h2>
-        </div>
-
-        {/* Filter Section */}
-        <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">Filter</h3>
-          <hr className="mb-4" />
-          <div>
-            <label
-              htmlFor="user-search"
-              className="font-medium text-gray-700 mb-2 block"
-            >
-              Search:
-            </label>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3">
-              <input
-                type="text"
-                id="user-search"
-                className="border border-gray-300 rounded-lg p-2 flex-grow sm:flex-grow-0 sm:w-48 mb-4 sm:mb-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Search by name or email"
-                value={searchQuery}
-                onChange={handleSearchChange}
-              />
-            </div>
-          </div>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-lg">

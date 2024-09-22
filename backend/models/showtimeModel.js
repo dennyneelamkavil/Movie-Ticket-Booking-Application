@@ -20,11 +20,6 @@ const ShowtimeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    availableSeats: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users",
@@ -35,7 +30,10 @@ const ShowtimeSchema = new mongoose.Schema(
   }
 );
 
-ShowtimeSchema.index({ movieID: 1,theaterID: 1, date: 1, time: 1 }, { unique: true });
+ShowtimeSchema.index(
+  { movieID: 1, theaterID: 1, date: 1, time: 1 },
+  { unique: true }
+);
 
 const ShowtimeModel = mongoose.model("Showtimes", ShowtimeSchema);
 
