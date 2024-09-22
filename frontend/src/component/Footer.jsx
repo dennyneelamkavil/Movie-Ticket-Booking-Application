@@ -13,17 +13,14 @@ export default function Footer() {
         <div className="flex flex-row justify-around w-full">
           <div className="flex flex-col gap-3 text-center">
             <h6 className="footer-title">Movies</h6>
-            <Link to="/now-showing" className="link link-hover">
+            <Link to="#nowshowing" className="link link-hover">
               Now Showing
             </Link>
-            <Link to="/coming-soon" className="link link-hover">
+            <Link to="#comingsoon" className="link link-hover">
               Coming Soon
             </Link>
-            <Link to="/top-rated" className="link link-hover">
-              Top Rated
-            </Link>
-            <Link to="/trending" className="link link-hover">
-              Trending
+            <Link to="#latest" className="link link-hover">
+              Latest Releases
             </Link>
           </div>
           <div className="flex flex-col gap-3 text-center">
