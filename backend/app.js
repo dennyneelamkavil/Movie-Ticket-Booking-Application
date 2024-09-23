@@ -1,13 +1,12 @@
 import express from "express";
 import logger from "morgan";
 import cors from "cors";
-import path from "path";
 import "dotenv/config";
 import { connectDB } from "./db/index.js";
 import router from "./routes/index.js";
-
 const PORT = process.env.PORT;
 const clientURL = process.env.FRONTEND_URL;
+
 const app = express();
 
 connectDB();
@@ -15,27 +14,22 @@ connectDB();
 app.use(
   cors({
     origin: clientURL,
+    methods: "GET,POST,PUT,DELETE",
   })
 );
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// API routes
 app.use("/api", router);
 
-// Serve static files from the React app (assumes you have a 'build' folder)
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "build")));
-
-// Serve index.html for all other routes (React frontend)
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
-// Error handling for non-API routes
 app.all("*", (req, res) => {
   res.status(404).json({ message: "Route Not Found" });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Server Error", error: err.message });
 });
 
 app.listen(PORT, () => {
