@@ -1,7 +1,7 @@
 import { GiTheater } from "react-icons/gi";
 import { MdLocalMovies } from "react-icons/md";
 import { FaUsersLine } from "react-icons/fa6";
-import Cards from "../ui/Cards.jsx";
+import Cards from "../ui/Cards";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 

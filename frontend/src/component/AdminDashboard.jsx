@@ -3,7 +3,7 @@ import { MdLocalMovies, MdOutlineTheaterComedy } from "react-icons/md";
 import { LuMessagesSquare } from "react-icons/lu";
 // import { SiShowtime } from "react-icons/si";
 // import { GiTheater } from "react-icons/gi";
-import Cards from "../ui/Cards.jsx";
+import Cards from "../ui/Cards";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
